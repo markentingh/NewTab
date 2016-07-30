@@ -19,86 +19,16 @@
     </section>
 
     <section class="main-content">
-      <h3>
-<a id="tapestry-ui" class="anchor" href="#tapestry-ui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tapestry UI</h3>
-
-<p>Create an elegant &amp; responsive <strong>website &amp; dashboard</strong> using Tapestry as your core CSS framework. Simply copy &amp; paste HTML markup from our <a href="http://www.github.com/websilk/tapestry/">UI Showcase</a> directly into your web pages.</p>
+      <p>Create an elegant &amp; responsive <strong>website &amp; dashboard</strong> using Tapestry as your core CSS framework. Simply copy &amp; paste HTML markup from our <a href="http://www.github.com/websilk/tapestry/">UI Showcase</a> directly into your web pages.</p>
 
 <h3>
 <a id="how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works</h3>
 
 <ul>
-<li>
-<strong>Add tapestry.css</strong> to the head of your website. Tapestry.css contains a 12 column grid system along with styling for all the UI elements and supports three different sizes of UI elements (small, medium, &amp; large).</li>
+<li>Add <strong>tapestry.css</strong> to the head of your website. This file contains a 12 column grid system along with styling for all the UI elements and supports three different sizes of UI elements (small, medium, &amp; large).</li>
 <li>Choose one of the theme CSS files to add to the head of your website.</li>
 <li>Load the <strong>tapestry.js</strong> library at the foot of your website</li>
-<li>
-<p>A theme is a list of CSS coloring rules that are applied to the tapestry UI. The Theme Factory LESS file takes a list of HEX color variables from your Theme LESS file and generates all the coloring rules for the UI. </p>
-
-<div>
-    <div>
-        <div>New Blog Post</div>
-        <div>
-            <a href="/dashboard">
-                
-                    
-                
-            </a>
-        </div>
-    </div>
-    <div>
-        <div></div>
-        <div>
-            Write a new blog post from the depths of your heart.
-        </div>
-    </div>
-    <div>
-        <div>Writer</div>
-        <div>
-            
-        </div>
-        <div>
-            <a href="#">
-                
-                    
-                
-            </a>
-        </div>
-    </div>
-    <div>
-        <div>Title</div>
-        <div>
-            
-        </div>
-        <div>
-            <a href="#">
-                
-                    
-                
-            </a>
-        </div>
-    </div>
-    <div>
-        <div>Description</div>
-        <div>
-            
-        </div>
-        <div>
-            <a href="#">
-                
-                    
-                
-            </a>
-        </div>
-    </div>
-    <div>
-        <div>
-            <a href="#">Apply</a>
-            <a href="#">Cancel</a>
-        </div>
-    </div>
-</div>
-</li>
+<li>A theme is a list of CSS coloring rules that are applied to the tapestry UI. The Theme Factory LESS file takes a list of HEX color variables from your Theme LESS file and generates all the coloring rules for the UI.</li>
 </ul>
 
 <h3>
@@ -111,6 +41,74 @@
 <li>Advanced users can modify the Tapestry LESS file to customize the look &amp; feel of the UI.</li>
 <li>Add coloring rules to the Theme Factory LESS file to alter the way the UI is colored.</li>
 </ul>
+
+<h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example</h3>
+
+<pre><code>&lt;div class="box size-sm"&gt;
+    &lt;div class="row header"&gt;
+        &lt;div class="col title"&gt;New Blog Post&lt;/div&gt;
+        &lt;div class="col right icon"&gt;
+            &lt;a href="/dashboard" target="_blank"&gt;
+                &lt;svg viewBox="0 0 15 15"&gt;
+                    &lt;use xlink:href="#icon-dashboard" x="0" y="0" width="15" height="15" /&gt;
+                &lt;/svg&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row"&gt;
+        &lt;div class="col field-label"&gt;&lt;/div&gt;
+        &lt;div class="col field-text"&gt;
+            Write a new blog post from the depths of your heart.
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row hover"&gt;
+        &lt;div class="col field-label"&gt;Writer&lt;/div&gt;
+        &lt;div class="col field-input"&gt;
+            &lt;input type="text" class="short" value="Your full name" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col field-icon icon hover-faded"&gt;
+            &lt;a href="#"&gt;
+                &lt;svg viewBox="0 0 15 15"&gt;
+                    &lt;use xlink:href="#icon-help" x="0" y="0" width="15" height="15" /&gt;
+                &lt;/svg&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row hover"&gt;
+        &lt;div class="col field-label"&gt;Title&lt;/div&gt;
+        &lt;div class="col field-input four"&gt;
+            &lt;input type="text" class="long" value="A new blog post" /&gt;
+        &lt;/div&gt;
+        &lt;div class="col field-icon icon hover-faded"&gt;
+            &lt;a href="#"&gt;
+                &lt;svg viewBox="0 0 15 15"&gt;
+                    &lt;use xlink:href="#icon-help" x="0" y="0" width="15" height="15" /&gt;
+                &lt;/svg&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row hover"&gt;
+        &lt;div class="col field-label"&gt;Description&lt;/div&gt;
+        &lt;div class="col field-input four"&gt;
+            &lt;textarea class="medium"&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div class="col field-icon icon hover-faded"&gt;
+            &lt;a href="#"&gt;
+                &lt;svg viewBox="0 0 15 15"&gt;
+                    &lt;use xlink:href="#icon-help" x="0" y="0" width="15" height="15" /&gt;
+                &lt;/svg&gt;
+            &lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="row pad"&gt;
+        &lt;div class="col buttons"&gt;
+            &lt;a href="#" class="button apply"&gt;Apply&lt;/a&gt;
+            &lt;a href="#" class="button cancel"&gt;Cancel&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Websilk/Tapestry">Tapestry</a> is maintained by <a href="https://github.com/Websilk">Websilk</a>.</span>
