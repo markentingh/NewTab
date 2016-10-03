@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en-US">
     <head>
-        <title>Tapestry UI</title>
+        <title>New Tab</title>
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
@@ -30,14 +30,52 @@
             })();
         </script>
         <style type="text/css">
-            body{background-color:#d0d0d0;}
+            body{background-color:#e0e0e0 !important; background-image:url(/images/mesas.jpg) !important; background-attachment: fixed !important;}
             #svglist{display:none;}
-            .sidebar{width:12%; min-width:200px;}
-            .sidebar > .header > .title{white-space:normal;}
-            .dash-body{width:88%; max-width:calc(100% - 200px); padding:0 10px 0 20px;}
+            #apps{width:100%;}
+            #apps > .col{text-align:center; padding:50px;}
+            #apps > .col a{text-decoration:none;}
+            #apps > .col img{width:100%;}
+            #apps > .col span{font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
+
+            .search-bar{width:100%; padding:50px 30px 10px 30px; box-sizing:border-box;}
+            .search-bar input{width:100%; max-width:500px;}
+
+            .search-bar input::-webkit-input-placeholder,
+            .search-bar input::-moz-placeholder,
+            .search-bar input:-ms-input-placeholder,
+            .search-bar input:-moz-placeholder {font-style:italic; }
+
+            /* responsive icons ////////////////////////////////// */
+
+            @media(max-width:1768px){
+                #apps > .col span{font-size:17px;}
+            }
+
+            @media(max-width:1600px){
+                #apps > .col{padding:30px;}
+            }
+
+            @media(max-width:1440px){
+                #apps > .col{padding:40px;}
+            }
+            
+
+            @media(max-width:870px){
+                #apps > .col{padding:30px;}
+            }
+
+            @media(max-width:800px){
+                #apps > .col span{font-size:16px;}
+                #apps > .col{padding:25px;}
+            }
+
+            @media(max-width:426px){
+                #apps > .col{padding:40px;}
+            }
         </style>
     </head>
-    <body class="box hidden flex-container">
+    <body class="box hidden">
         <div id="svglist">
             <!-- copied output svg from project https://github.com/Websilk/Design/tree/master/SVG -->
             <svg xmlns="http://www.w3.org/2000/svg">
@@ -2506,129 +2544,132 @@
             </svg>
         </div>
         
-        <div class="col sidebar flex size-med">
-            <div class="row header">
-                <div class="row title">
-                    <div class="col eleven">
-                        Tapestry JS Demo Dashboard
-                    </div>
-                    <div class="col right icon small absolute bottom-right">
-                        <a href="#" title="Create a new web page for 'Websilk">
-                            <svg viewBox="0 0 15 15">
-                                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon-add" x="0" y="0" width="15" height="15"></use>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div id="sidebar-menu">
-                <li>
-                    <div class="row hover{{row-class}}">
-                        {{gutter}}
-                        <span class="col icon small pad-right-sm">
-                            <a href="{{href}}">
-                                <svg viewBox="0 0 36 36">
-                                    <use xlink:href="#icon-{{icon}}" x="0" y="0" width="36" height="36"></use>
-                                </svg>
-                            </a>
-                        </span>
-                        <span class="col label nolinks">
-                            <a href="{{href}}">
-                                {{label}}
-                            </a>
-                        </span>
-                    </div>
-                    {{submenu}}
-                </li>
-            </div>
-            
-            <div id="sidebar-menu-container" class="row">
-
+        <div id="app">
+            <div class="col hd-eight-total desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
+                <a href="{{url}}">
+                    <img {{icon}}>
+                    <span>{{title}}</span>
+                </a>
             </div>
         </div>
-
-        <div class="col dash-body"></div>
+        <div id="apps" class="flex"></div>
 
         <!-- javascript libraries /////////////////////////////////////////////////////////-->
-        <script type="text/javascript" src="/js/raphael.min.js"></script>
         <script type="text/javascript" src="/js/tapestry.js"></script>
 
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
         <script>
+            var d = document; 
+
             (function(){ //contained
-                
                 var htm = '';
                 var html = []; 
-                var body = document.getElementsByTagName('body')[0];
-
-                //load sidebar
-                var sidebar = document.getElementById('sidebar-menu');
-                var sidebar_container = document.getElementById('sidebar-menu-container');
-                var sidebar_items = [
-                    {label:'Website', icon:'settings', href:'', isroot:true, submenu:[
-                        {label:'Home', icon:'settings', href:'', submenu:[
-                            {label:'Storefront', icon:'settings', href:'javascript:loadPage("storefront", true)'},
-                            {label:'Mobile App', icon:'settings', href:'javascript:loadPage("mobile-app", true)'},
-                            {label:'Magazine', icon:'settings', href:'javascript:loadPage("magazine", true)'},
-                            {label:'Musician', icon:'settings', href:'javascript:loadPage("musician", true)'},
-                            {label:'Real Estate', icon:'settings', href:'javascript:loadPage("real-estate", true)'}
-                        ]},
-                        {label:'Blog', icon:'settings', href:'javascript:loadPage("blog", true)'},
-                        {label:'Projects', icon:'settings', href:'javascript:loadPage("projects", true)'},
-                        {label:'Galleries', icon:'settings', href:'javascript:loadPage("galleries", true)'},
-                        {label:'Catalog', icon:'settings', href:'javascript:loadPage("catalog", true)'},
-                        {label:'Wiki', icon:'settings', href:'javascript:loadPage("wiki", true)'},
-                        {label:'About', icon:'settings', href:'javascript:loadPage("about", true)'},
-                        {label:'Content', icon:'settings', href:'javascript:loadPage("content", true)'},
-                        {label:'Log In', icon:'settings', href:'javascript:loadPage("login", true)'},
-                        {label:'404 Error', icon:'settings', href:'javascript:loadPage("404-error", true)'},
-                        {label:'About', icon:'settings', href:'javascript:loadPage("about", true)'}
-                    ]},
-                    {label:'Dashboards', icon:'settings', href:'', isroot:true, submenu:[
-                        {label:'Style A', icon:'settings', href:'javascript:loadPage("dashboard-1", true)'},
-                        {label:'Style B', icon:'settings', href:'javascript:loadPage("dashboard-2", true)'},
-                        {label:'Style C', icon:'settings', href:'javascript:loadPage("dashboard-3", true)'}
-                    ]},
-                    {label:'Forms', icon:'settings', href:'", true)', isroot:true, submenu:[
-                        {label:'General', icon:'settings', href:'javascript:loadPage("forms-general", true)'},
-                        {label:'Advanced', icon:'settings', href:'javascript:loadPage("forms-advanced", true)'},
-                        {label:'Validation', icon:'settings', href:'javascript:loadPage("forms-validation", true)'},
-                        {label:'Wizard', icon:'settings', href:'javascript:loadPage("forms-wizard", true)'},
-                        {label:'Upload', icon:'settings', href:'javascript:loadPage("forms-upload", true)'}
-                    ]},
-                    {label:'Elements', icon:'settings', href:'', isroot:true, submenu:[
-                        {label:'General', icon:'settings', href:'javascript:loadPage("elem-general", true)'},
-                        {label:'Typography', icon:'settings', href:'javascript:loadPage("elem-typography", true)'},
-                        {label:'Buttons', icon:'settings', href:'javascript:loadPage("elem-buttons", true)'},
-                        {label:'Icons', icon:'settings', href:'javascript:loadPage("elem-icons", true)'},
-                        {label:'Menus', icon:'settings', href:'javascript:loadPage("elem-menus", true)'},
-                        {label:'Widgets', icon:'settings', href:'javascript:loadPage("elem-widgets", true)'}
-                    ]},
-                    {label:'Spreadsheets', icon:'settings', href:'javascript:loadPage("spreadsheets", true)', isroot:true},
-                    {label:'Charts', icon:'settings', href:'javascript:loadPage("charts", true)', isroot:true},
-                    {label:'Layout', icon:'settings', href:'', isroot:true, submenu:[
-                        {label:'Fixed Sidebar', icon:'settings', href:'javascript:loadPage("fixed-sidebar", true)'},
-                        {label:'Fixed Header', icon:'settings', href:'javascript:loadPage("fixed-header", true)'},
-                        {label:'Shrinking Header', icon:'settings', href:'javascript:loadPage("shrink-header", true)'},
-                        {label:'Music Player', icon:'settings', href:'javascript:loadPage("music-player", true)'},
-                        {label:'Mini Cart', icon:'settings', href:'javascript:loadPage("mini-cart", true)'},
-                        {label:'Grid System', icon:'settings', href:'javascript:loadPage("grid-test", true)'}
-                    ]}
+                var body = d.getElementsByTagName('body')[0];
+                var divapp = d.getElementById('app');
+                var divapps = d.getElementById('apps');
+                var apps = [
+                    {
+                        title:'Trello',
+                        developer:'Trello',
+                        icon:'trello.png',
+                        url:'https://www.trello.com'
+                    },
+                    {
+                        title:'Gmail',
+                        developer:'Google',
+                        icon:'google_gmail.png',
+                        url:'https://www.gmail.com'
+                    },
+                    {
+                        title:'YouTube',
+                        developer:'Google',
+                        icon:'google_youtube.png',
+                        url:'https://www.youtube.com'
+                    },
+                    {
+                        title:'Google Maps',
+                        developer:'Google',
+                        icon:'google_maps.png',
+                        url:'https://www.google.com/maps'
+                    },
+                    {
+                        title:'Google Drive',
+                        developer:'Google',
+                        icon:'google_drive.png',
+                        url:'https://www.google.com/drive'
+                    },
+                    {
+                        title:'Google Calendar',
+                        developer:'Google',
+                        icon:'google_calendar.png',
+                        url:'https://www.google.com/calendar'
+                    },
+                    {
+                        title:'Google Plus',
+                        developer:'Google',
+                        icon:'google_plus.png',
+                        url:'https://www.google.com/plus'
+                    },
+                    {
+                        title:'Google Hangouts',
+                        developer:'Google',
+                        icon:'google_hangouts.png',
+                        url:'https://www.google.com/hangouts'
+                    },
+                    {
+                        title:'Facebook',
+                        developer:'Facebook',
+                        icon:'facebook.png',
+                        url:'https://www.facebook.com/warhero'
+                    },
+                    {
+                        title:'Instagram',
+                        developer:'Facebook',
+                        icon:'instagram.png',
+                        url:'https://www.instagram.com'
+                    },
+                    {
+                        title:'Feedly',
+                        developer:'Feedly',
+                        icon:'feedly.png',
+                        url:'https://www.feedly.com'
+                    },
+                    {
+                        title:'Crunchy Roll',
+                        developer:'Crunchy Roll',
+                        icon:'crunchyroll.png',
+                        url:'https://www.crunchyroll.com'
+                    },
+                    {
+                        title:'Wells Fargo',
+                        developer:'Wells Fargo',
+                        icon:'wellsfargo.png',
+                        url:'https://www.wellsfargo.com'
+                    },
+                    {
+                        title:'Mint',
+                        developer:'Mint',
+                        icon:'mint.png',
+                        url:'https://www.mint.com'
+                    }
                 ];
 
-                addHtm('ul',sidebar_container, addMenuItems(sidebar.innerHTML, sidebar_items, 0), "menu");
-                sidebar.parentNode.removeChild(sidebar);
-
-                //load first page
-                loadPage('dashboard-1', true);
+                //load list of apps on page
+                htm = '';
+                for(var x = 0; x < apps.length; x++){
+                    htm += 
+                        divapp.innerHTML
+                        .replace('{{title}}', apps[x].title)
+                        .replace('{{developer}}', apps[x].developer)
+                        .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
+                        .replace('{{url}}', apps[x].url);
+                }
+                divapps.innerHTML = htm;
 
                 //finally, show the body of the web page
                 body.className = body.className.replace(' hidden','');
-
-                //bind events to elements
-                Tapestry.on(document.querySelectorAll('.box .sidebar ul.menu > li'), 'click', Tapestry.menu.click);
-                
+                divapp.parentNode.removeChild(divapp);
             
             })(); //end contained function
             
@@ -2641,19 +2682,19 @@
                 xobj.open('GET', 'pages/'+name+'.html', true);
                 xobj.onreadystatechange = function () {
                     if (xobj.readyState == 4 && xobj.status == "200") {
-                        getElementsByClassName(document, 'dash-body')[0].innerHTML = xobj.responseText;
+                        getElementsByClassName(d, 'dash-body')[0].innerHTML = xobj.responseText;
                         if(hasjs == true){
                             //remove old page script (if exists)
-                            var old = document.getElementById("pagejs");
+                            var old = d.getElementById("pagejs");
                             if(old){
-                                document.head.removeChild(old);
+                                d.head.removeChild(old);
                             }
                             //add new page script
-                            var script = document.createElement('script');
+                            var script = d.createElement('script');
                             script.id = 'pagejs';
                             script.src = 'pages/'+name+'.js';
                             //script.onload = function () {};
-                            document.head.appendChild(script);
+                            d.head.appendChild(script);
                         }
                     }
                 };
@@ -2661,7 +2702,7 @@
             }
 
             function addHtm(parent, el, str, classes, styles) {
-                var div = document.createElement(parent);
+                var div = d.createElement(parent);
                 if(classes != null){
                     div.className = classes;
                 }
@@ -2670,29 +2711,6 @@
                 }
                 div.innerHTML = str;
                 el.appendChild(div);
-            }
-
-            function addMenuItems(ui, items, level){
-                var htm = '';
-                var gutter = '';
-                for(var i = 0; i < level; i++){
-                    gutter += '<div class="gutter"></div>';
-                }
-                for(var i = 0; i < items.length; i++){
-                    htm += ui + '\n';
-                    htm = replace(htm, '{{label}}', items[i].label);
-                    htm = replace(htm, '{{href}}', items[i].href == '' ? 'javascript:' : replace(items[i].href, '"', "'"));
-                    htm = replace(htm, '{{icon}}', items[i].icon);
-                    htm = replace(htm, '{{row-class}}', (items[i].isroot ? '' : ''));
-                    htm = replace(htm, '{{gutter}}', gutter);
-                    htm = replace(htm, '{{submenu}}', 
-                                items[i].submenu != null 
-                                ?   '<div class="row submenu">' + 
-                                        '<ul class="menu">' + addMenuItems(ui, items[i].submenu, level + 1) + '</ul>' +
-                                    '</div>' 
-                                : '');
-                }
-                return htm;
             }
         
             function replace(str, find, rpl){
@@ -2748,7 +2766,7 @@
                 } else {
                     return (function getElementsByClass(searchClass,node) {
                         if ( node == null )
-                        node = document;
+                        node = d;
                         var classElements = [],
                             els = node.getElementsByTagName("*"),
                             elsLen = els.length,

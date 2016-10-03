@@ -25,8 +25,11 @@ body {font-size:14px;}
 .thin{font-weight:300 !important;}
 .italic{font-style:italic !important;}
 .underline{text-decoration:underline !important;}
-.flex-container{display:flex; flex-wrap:wrap;}
-.flex{display:flex;}
+.flex{display:flex; flex-wrap:wrap;}
+.flex > .flexed{display:flex;}
+
+/* global variables */
+@grid-invert:~'total'; //name of the inverted grid system
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 /* Generic padding & margins //////////////////////////////////////////////////////////////////////////////// */
@@ -122,6 +125,19 @@ body {font-size:14px;}
         &.ten{width:83.33339%}
         &.eleven{width:91.66669%}
         &.twelve{width:100%}
+
+        &.one-@{grid-invert}{width:100%}
+        &.two-@{grid-invert}{width:50%}
+        &.three-@{grid-invert}{width:33.3333337%}
+        &.four-@{grid-invert}{width:25%}
+        &.five-@{grid-invert}{width:20%}
+        &.six-@{grid-invert}{width:16.666669%}
+        &.seven-@{grid-invert}{width:14.2857142%}
+        &.eight-@{grid-invert}{width:12.5%}
+        &.nine-@{grid-invert}{width:11.1111111%}
+        &.ten-@{grid-invert}{width:10%}
+        &.eleven-@{grid-invert}{width:9.0909090%}
+        &.twelve-@{grid-invert}{width:8.3333334%}
     }
 
     .row, .col{
@@ -425,7 +441,7 @@ body {font-size:14px;}
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
     /* High Definition (HD) Screen Size */
-    @media (max-width:1920px){
+    @media (min-width:1441px){
         .screen-sizes(hd);
     }
 
@@ -460,7 +476,7 @@ body {font-size:14px;}
     }
 
     /* Small Tablet Screen Size */
-    @media (max-width:520px){
+    @media (max-width:520px){ 
         .screen-sizes(tablet-sm);
         ul.columns-list{
             li{min-width:100% !important;}
@@ -499,6 +515,20 @@ body {font-size:14px;}
         &.@{size}-ten{width:83.33339%}
         &.@{size}-eleven{width:91.66669%}
         &.@{size}-twelve, &.@{size}{width:100%}
+
+        &.@{size}-one-@{grid-invert}, &.@{size}-@{grid-invert}{width:100%}
+        &.@{size}-two-@{grid-invert}{width:50%}
+        &.@{size}-three-@{grid-invert}{width:33.3333334%}
+        &.@{size}-four-@{grid-invert}{width:25%}
+        &.@{size}-five-@{grid-invert}{width:20%}
+        &.@{size}-six-@{grid-invert}{width:16.6666667%}
+        &.@{size}-seven-@{grid-invert}{width:14.2857142%}
+        &.@{size}-eight-@{grid-invert}{width:12.5%}
+        &.@{size}-nine-@{grid-invert}{width:11.1111111%}
+        &.@{size}-ten-@{grid-invert}{width:10%}
+        &.@{size}-eleven-@{grid-invert}{width:9.0909090%}
+        &.@{size}-twelve-@{grid-invert}{width:8.3333334%}
+
         .flex{display:block;}
     }
 }
