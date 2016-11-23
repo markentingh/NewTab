@@ -33,7 +33,7 @@
             body{background-color:#e0e0e0 !important; background-image:url(/images/mesas.jpg) !important; background-attachment: fixed !important;}
             #svglist{display:none;}
             #apps{width:100%;}
-            #apps > .col{text-align:center; padding:50px;}
+            #apps > .col{text-align:center; padding:30px;}
             #apps > .col a{text-decoration:none;}
             #apps > .col img{width:100%;}
             #apps > .col span{font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
@@ -2545,7 +2545,7 @@
         </div>
         
         <div id="app">
-            <div class="col hd-eight-total desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
+            <div class="col {{hd-size}} desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
                 <a href="{{url}}">
                     <img {{icon}}>
                     <span>{{title}}</span>
@@ -2574,6 +2574,12 @@
                         developer:'Trello',
                         icon:'trello.png',
                         url:'https://www.trello.com'
+                    },
+                    {
+                        title:'Evernote',
+                        developer:'Evernote',
+                        icon:'evernote.png',
+                        url:'https://www.evernote.com'
                     },
                     {
                         title:'Gmail',
@@ -2630,16 +2636,22 @@
                         url:'https://www.instagram.com'
                     },
                     {
-                        title:'Feedly',
-                        developer:'Feedly',
-                        icon:'feedly.png',
-                        url:'https://www.feedly.com'
+                        title:'Netflix',
+                        developer:'Netflix',
+                        icon:'netflix.jpg',
+                        url:'https://www.netflix.com'
                     },
                     {
                         title:'Crunchy Roll',
                         developer:'Crunchy Roll',
                         icon:'crunchyroll.png',
                         url:'https://www.crunchyroll.com'
+                    },
+                    {
+                        title:'Feedly',
+                        developer:'Feedly',
+                        icon:'feedly.png',
+                        url:'https://www.feedly.com'
                     },
                     {
                         title:'Wells Fargo',
@@ -2652,18 +2664,54 @@
                         developer:'Mint',
                         icon:'mint.png',
                         url:'https://www.mint.com'
+                    },
+                    {
+                        title:'Weather Underground',
+                        developer:'WU',
+                        icon:'wundermap2.png',
+                        url:'https://www.wunderground.com/'
+                    },
+                    {
+                        title:'GitHub',
+                        developer:'Github',
+                        icon:'github.png',
+                        url:'https://www.github.com/websilk/home'
+                    },
+                    {
+                        title:'Amazon AWS',
+                        developer:'Amazon',
+                        icon:'amazon_aws.png',
+                        url:'https://us-west-2.console.aws.amazon.com/console/home?region=us-west-2'
                     }
+                    /*,
+                    {
+                        title:'Amazon',
+                        developer:'Amazon',
+                        icon:'amazon.png',
+                        url:'https://www.amazon.com'
+                    },
+                    {
+                        title:'eBay',
+                        developer:'eBay',
+                        icon:'ebay.png',
+                        url:'https://ebay.com'
+                    }*/
                 ];
 
                 //load list of apps on page
-                htm = '';
+                var hdsize = 'hd-nine-total';
+
                 for(var x = 0; x < apps.length; x++){
+
+                    if(x == 8){ hdsize = 'hd-ten-total'; }
+
                     htm += 
                         divapp.innerHTML
                         .replace('{{title}}', apps[x].title)
                         .replace('{{developer}}', apps[x].developer)
                         .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
-                        .replace('{{url}}', apps[x].url);
+                        .replace('{{url}}', apps[x].url)
+                        .replace('{{hd-size}}', hdsize);
                 }
                 divapps.innerHTML = htm;
 
