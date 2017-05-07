@@ -6,7 +6,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
         <link rel="stylesheet" type="text/css" href="/tapestry.css"/>
-        <link id="themecss" rel="stylesheet" type="text/css" href="/themes/pearl.css"/>
         <script>
             (function(){
                 //load theme based on query string  ///////////////////////////////////////////////////
@@ -29,9 +28,9 @@
             })();
         </script>
         <style type="text/css">
-            body{background-color:#e0e0e0 !important; background-image:url(/images/mesas.jpg) !important; background-attachment: fixed !important;}
+            body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover;}
             #svglist{display:none;}
-            #apps{width:100%;}
+            #apps{width:100%; max-width:1920px; margin:0 auto;}
             #apps > .col{text-align:center; padding:30px;}
             #apps > .col a{text-decoration:none;}
             #apps > .col img{width:100%;}
@@ -85,9 +84,6 @@
         </div>
         <div id="apps" class="flex"></div>
 
-        <!-- javascript libraries /////////////////////////////////////////////////////////-->
-        <script type="text/javascript" src="/js/tapestry.js"></script>
-
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
         <script>
@@ -96,7 +92,7 @@
             (function(){ //contained
                 var htm = '';
                 var html = [];
-                var body = d.getElementsByTagName('body')[0];
+                var body = d.body;
                 var divapp = d.getElementById('app');
                 var divapps = d.getElementById('apps');
                 var apps = [
@@ -252,128 +248,17 @@
                 }
                 divapps.innerHTML = htm;
 
+                //load random 4K background
+                var img = (1 + Math.round(Math.random() * 13)) + '.jpg';
+                console.log(body);
+                console.log(img);
+                document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+
                 //finally, show the body of the web page
                 body.className = body.className.replace(' hidden','');
                 divapp.parentNode.removeChild(divapp);
 
             })(); //end contained function
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // internal Demo functions //////////////////////////////////////////////////////////////////////////////////////////
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-            function loadPage(name, hasjs){
-                var xobj = new XMLHttpRequest();
-                xobj.open('GET', 'pages/'+name+'.html', true);
-                xobj.onreadystatechange = function () {
-                    if (xobj.readyState == 4 && xobj.status == "200") {
-                        getElementsByClassName(d, 'dash-body')[0].innerHTML = xobj.responseText;
-                        if(hasjs == true){
-                            //remove old page script (if exists)
-                            var old = d.getElementById("pagejs");
-                            if(old){
-                                d.head.removeChild(old);
-                            }
-                            //add new page script
-                            var script = d.createElement('script');
-                            script.id = 'pagejs';
-                            script.src = 'pages/'+name+'.js';
-                            //script.onload = function () {};
-                            d.head.appendChild(script);
-                        }
-                    }
-                };
-                xobj.send(null);
-            }
-
-            function addHtm(parent, el, str, classes, styles) {
-                var div = d.createElement(parent);
-                if(classes != null){
-                    div.className = classes;
-                }
-                if(styles != null){
-                    div.setAttribute('style', styles);
-                }
-                div.innerHTML = str;
-                el.appendChild(div);
-            }
-
-            function replace(str, find, rpl){
-                return str.replace(new RegExp(find, 'g'), rpl);
-            }
-
-            //renders a scaffolding template, replacing scaffold elements with variables (e.g. "{{label}}"" ), and also
-            //showing or hiding blocks of HTML between scaffold element blocks  (e.g. "{{my-block}}<img src="#"/>{{/my-block}}" )
-            function renderTemplate(htm, elements){
-                var find = [0,0,0,0];
-                var ischanged = true;
-                for(var x = 0; x < elements.length; x++){
-                    ischanged = true;
-                    while(ischanged == true){
-                        ischanged = false;
-                        //check for scaffold closing first
-                        find[0] = htm.indexOf(elements[x][0].replace('{{','{{/'));
-                        if(htm.indexOf(elements[x][0].replace('{{','{{/')) >= 0){
-                            //found a group of html to show or hide based on scaffold element boolean value
-                            find[1] = htm.indexOf("}}", find[0]);
-                            if(find[1] > 0){
-                                //find beginning of tag
-                                find[2] = htm.indexOf(elements[x][0]);
-                                find[3] = htm.indexOf("}}", find[2]);
-                                if(find[2] >= 0){
-                                    if(elements[x][1] === false){
-                                        //hide group of html
-                                        htm = htm.substr(0, find[2]) + htm.substr(find[1]+2);
-                                        ischanged = true;
-                                    }else if(elements[x][1] === true){
-                                        //show group of html
-                                        htm = htm.substr(0, find[2]) + htm.substr(find[3]+2, find[0] - (find[3]+2)) + htm.substr(find[1]+2);
-                                        ischanged = true;
-                                    }
-                                }
-                            }
-                        }
-                        //check for scaffold element to replace with a value
-                        if(ischanged == false){
-                            if(htm.indexOf(elements[x][0]) >= 0){
-                                htm = htm.replace(elements[x][0], elements[x][1]);
-                                ischanged = true;
-                            }
-                        }
-                    }
-                }
-                return htm;
-            }
-
-            function getElementsByClassName(node,classname) {
-                if (node.getElementsByClassName) { // use native implementation if available
-                    return node.getElementsByClassName(classname);
-                } else {
-                    return (function getElementsByClass(searchClass,node) {
-                        if ( node == null )
-                        node = d;
-                        var classElements = [],
-                            els = node.getElementsByTagName("*"),
-                            elsLen = els.length,
-                            pattern = new RegExp("(^|\\s)"+searchClass+"(\\s|$)"), i, j;
-
-                        for (i = 0, j = 0; i < elsLen; i++) {
-                        if ( pattern.test(els[i].className) ) {
-                            classElements[j] = els[i];
-                            j++;
-                        }
-                        }
-                        return classElements;
-                    })(classname, node);
-                }
-            }
-
-            function lineChart(type){
-                switch(type){
-                    case "analytics":
-
-                }
-            }
         </script>
     </body>
 
