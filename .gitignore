@@ -1,0 +1,6 @@
+/images/**/
+/images/
+!/images/
+/images/*
+!/images/4k/
+!/images/mesas/

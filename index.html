@@ -139,17 +139,29 @@
                         url:'https://www.google.com/calendar'
                     },
                     {
-                        title:'Google Plus',
-                        developer:'Google',
-                        icon:'google_plus.png',
-                        url:'https://www.google.com/plus'
+                        title:'Hacker News',
+                        developer:'Y-Combinator',
+                        icon:'hackernews.png',
+                        url:'https://news.ycombinator.com/'
                     },
                     {
-                        title:'Google Hangouts',
-                        developer:'Google',
-                        icon:'google_hangouts.png',
-                        url:'https://www.google.com/hangouts'
+                        title:'Amazon',
+                        developer:'Amazon',
+                        icon:'amazon.png',
+                        url:'https://www.amazon.com'
                     },
+                    //{
+                    //    title:'Google Plus',
+                    //    developer:'Google',
+                    //    icon:'google_plus.png',
+                    //    url:'https://www.google.com/plus'
+                    //},
+                    //{
+                    //    title:'Google Hangouts',
+                    //    developer:'Google',
+                    //    icon:'google_hangouts.png',
+                    //    url:'https://www.google.com/hangouts'
+                    //},
                     {
                         title:'Facebook',
                         developer:'Facebook',
@@ -180,12 +192,12 @@
                         icon:'feedly.png',
                         url:'https://www.feedly.com'
                     },
-                    {
-                        title:'Wells Fargo',
-                        developer:'Wells Fargo',
-                        icon:'wellsfargo.png',
-                        url:'https://www.wellsfargo.com'
-                    },
+                    //{
+                    //    title:'Wells Fargo',
+                    //    developer:'Wells Fargo',
+                    //    icon:'wellsfargo.png',
+                    //    url:'https://www.wellsfargo.com'
+                    //},
                     {
                         title:'Chase',
                         developer:'Chase',
@@ -208,7 +220,7 @@
                         title:'GitHub',
                         developer:'Github',
                         icon:'github.png',
-                        url:'https://www.github.com/websilk/home'
+                        url:'https://github.com/markentingh'
                     },
                     {
                         title:'Amazon AWS',
@@ -249,15 +261,18 @@
                 divapps.innerHTML = htm;
 
                 //load random 4K background
-                var img = (1 + Math.round(Math.random() * 13)) + '.jpg';
-                console.log(body);
-                console.log(img);
+                var imagelength = 13
+                var img = lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
                 document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
 
                 //finally, show the body of the web page
                 body.className = body.className.replace(' hidden','');
                 divapp.parentNode.removeChild(divapp);
 
+
+                function lpad(s, width, char) {
+                    return (s.length >= width) ? s : (new Array(width).join(char) + s).slice(-width);
+                }
             })(); //end contained function
         </script>
     </body>
