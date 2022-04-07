@@ -30,11 +30,14 @@
         <style type="text/css">
             body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover;}
             #svglist{display:none;}
-            #apps{width:100%; max-width:1920px; margin:0 auto;}
-            #apps > .col{text-align:center; padding:30px;}
-            #apps > .col a{text-decoration:none;}
-            #apps > .col img{width:100%;}
-            #apps > .col span{font-family:helvetica, arial; font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
+            .menu-icon{position:absolute; top:50px; left:50px; display:none;}
+            .menu-icon img{width:32px; opacity:0.25;}
+            .menu-icon:hover img{opacity:0.75;}
+            .apps{width:100%; max-width:1920px; margin:0 auto;}
+            .apps > .col{text-align:center; padding:30px;}
+            .apps > .col a{text-decoration:none;}
+            .apps > .col img{width:100%;}
+            .apps > .col span{font-family:helvetica, arial; font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
 
             .search-bar{width:100%; padding:50px 30px 10px 30px; box-sizing:border-box;}
             .search-bar input{width:100%; max-width:500px;}
@@ -47,33 +50,33 @@
             /* responsive icons ////////////////////////////////// */
 
             @media(max-width:1768px){
-                #apps > .col span{font-size:17px;}
+                .apps > .col span{font-size:17px;}
             }
 
             @media(max-width:1600px){
-                #apps > .col{padding:30px;}
+                .apps > .col{padding:30px;}
             }
 
             @media(max-width:1440px){
-                #apps > .col{padding:40px;}
+                .apps > .col{padding:40px;}
             }
 
 
             @media(max-width:870px){
-                #apps > .col{padding:30px;}
+                .apps > .col{padding:30px;}
             }
 
             @media(max-width:800px){
-                #apps > .col span{font-size:16px;}
-                #apps > .col{padding:25px;}
+                .apps > .col span{font-size:16px;}
+                .apps > .col{padding:25px;}
             }
 
             @media(max-width:426px){
-                #apps > .col{padding:40px;}
+                .apps > .col{padding:40px;}
             }
         </style>
     </head>
-    <body class="box hidden">
+    <body class="box">
         <div id="app">
             <div class="col {{hd-size}} desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
                 <a href="{{url}}">
@@ -82,7 +85,17 @@
                 </a>
             </div>
         </div>
-        <div id="apps" class="flex"></div>
+        <div id="app2">
+            <div class="col hd-one tablet-two tablet-sm-three mobile-four flexed">
+                <a href="{{url}}">
+                    <img {{icon}}>
+                    <span>{{title}}</span>
+                </a>
+            </div>
+        </div>
+        <div id="menu" class="menu-icon"><img src="/images/menu-icon.png"/></div>
+        <div id="apps" class="apps flex"></div>
+        <div id="apps2" class="apps flex"></div>
 
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
@@ -95,6 +108,8 @@
                 var body = d.body;
                 var divapp = d.getElementById('app');
                 var divapps = d.getElementById('apps');
+                var divapp2 = d.getElementById('app2');
+                var divapps2 = d.getElementById('apps2');
                 var apps = [
                     //{
                     //    title:'Trello',
@@ -169,16 +184,22 @@
                         url:'https://www.facebook.com/warhero'
                     },
                     {
-                        title:'Instagram',
-                        developer:'Facebook',
-                        icon:'instagram.png',
-                        url:'https://www.instagram.com'
+                        title:'HBO Max',
+                        developer:'HBO',
+                        icon:'hbomax.png',
+                        url:'https://play.hbomax.com/'
                     },
+                    //{
+                    //    title:'Netflix',
+                    //    developer:'Netflix',
+                    //    icon:'netflix.jpg',
+                    //    url:'https://www.netflix.com'
+                    //},
                     {
-                        title:'Netflix',
-                        developer:'Netflix',
-                        icon:'netflix.jpg',
-                        url:'https://www.netflix.com'
+                        title:'Disney+',
+                        developer:'Disney',
+                        icon:'disney_plus.png',
+                        url:'https://www.disneyplus.com'
                     },
                     {
                         title:'Crunchy Roll',
@@ -187,11 +208,17 @@
                         url:'https://www.crunchyroll.com'
                     },
                     {
-                        title:'Feedly',
-                        developer:'Feedly',
-                        icon:'feedly.png',
-                        url:'https://www.feedly.com'
+                        title:'Twitch',
+                        developer:'Twitch',
+                        icon:'twitch.png',
+                        url:'https://www.twitch.tv/unknownracerx'
                     },
+                    //{
+                    //    title:'Feedly',
+                    //    developer:'Feedly',
+                    //    icon:'feedly.png',
+                    //    url:'https://www.feedly.com'
+                    //},
                     //{
                     //    title:'Wells Fargo',
                     //    developer:'Wells Fargo',
@@ -237,36 +264,74 @@
                     }*/
                 ];
 
-                //load list of apps on page
-                var hdsize = 'hd-nine-total';
-
-                for(var x = 0; x < apps.length; x++){
-
-                    if(x == 8){ hdsize = 'hd-ten-total'; }
-
-                    htm +=
-                        divapp.innerHTML
-                        .replace('{{title}}', apps[x].title)
-                        .replace('{{developer}}', apps[x].developer)
-                        .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
-                        .replace('{{url}}', apps[x].url)
-                        .replace('{{hd-size}}', hdsize);
-                }
-                divapps.innerHTML = htm;
+                var apps2 = [
+                    {
+                        title:'Datasilk',
+                        developer:'datasilk',
+                        icon:'datasilk.png',
+                        url:'https://www.datasilk.io'
+                    }
+                ];
 
                 //load random 4K background
-                var imagelength = 13
-                var img = lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
+                var imagelength = 13;
+                var img = getRandomImage();
                 document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+                //override image (optional, for custom image)
+                //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
 
-                //finally, show the body of the web page
-                body.className = body.className.replace(' hidden','');
+                //remove templates
                 divapp.parentNode.removeChild(divapp);
+                divapp2.parentNode.removeChild(divapp2);
+                setTimeout(() => {
+                    //divapps.style.display='none';
+                    divapps.style.opacity = 1;
+                }, 1000);
+                
 
+                menu.addEventListener('click', () => {
+                    menu.style.display = 'none';
+                    loadApps();
+                });
+
+                //load list of apps on page
+                function loadApps(){
+                    //apps
+                    var hdsize = 'hd-nine-total';
+                    for(var x = 0; x < apps.length; x++){
+                        if(x == 8){ hdsize = 'hd-ten-total'; }
+                        htm +=
+                            divapp.innerHTML
+                            .replace('{{title}}', apps[x].title)
+                            .replace('{{developer}}', apps[x].developer)
+                            .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
+                            .replace('{{url}}', apps[x].url)
+                            .replace('{{hd-size}}', hdsize);
+                    }
+                    divapps.innerHTML = htm;
+                    htm = '';
+                    
+                    //apps2
+                    for(var x = 0; x < apps2.length; x++){
+                        htm +=
+                            divapp2.innerHTML
+                            .replace('{{title}}', apps2[x].title)
+                            .replace('{{developer}}', apps2[x].developer)
+                            .replace('{{icon}}', 'src="/icons/' + apps2[x].icon + '"')
+                            .replace('{{url}}', apps2[x].url);
+                    }
+                    divapps2.innerHTML = htm;
+                }
+                loadApps();
 
                 function lpad(s, width, char) {
                     return (s.length >= width) ? s : (new Array(width).join(char) + s).slice(-width);
                 }
+
+                function getRandomImage(){
+                    return lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
+                }
+
             })(); //end contained function
         </script>
     </body>
