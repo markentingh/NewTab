@@ -30,6 +30,7 @@
         <style type="text/css">
             body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover;}
             #svglist{display:none;}
+            #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0; pointer-events:none;}
             .menu-icon{position:absolute; top:50px; left:50px; display:none;}
             .menu-icon img{width:32px; opacity:0.25;}
             .menu-icon:hover img{opacity:0.75;}
@@ -77,6 +78,9 @@
         </style>
     </head>
     <body class="box">
+        <div id="shadertoybg">
+            <iframe src="about:blank" id="shadertoy" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>
+        </div>
         <div id="app">
             <div class="col {{hd-size}} desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
                 <a href="{{url}}">
@@ -276,7 +280,7 @@
                 //load random 4K background
                 var imagelength = 13;
                 var img = getRandomImage();
-                document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+                //document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
                 //override image (optional, for custom image)
                 //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
 
@@ -331,6 +335,33 @@
                 function getRandomImage(){
                     return lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
                 }
+
+                //load shader toy in background
+                var shadertoys = [
+                    '4lX3RB', 'MsXGR2', 'tlXSzB', '4scGDH', 'XsBXDc', 'MdjGWc', 'MlB3Wt', '4l2XWK', 'lsSGWw',
+                    'Mt3GW2', 'ldXGDr', 'XtlfDn', 'MdfBzl', '4tscR8', 'XlXXWj', 'XltGRX', '4dt3RX', 'XlfyWl',
+                    'tsyBDm', 'XsfBRH', 'llGGzh', 'llXSW2', '3dXGWB', '4tfBRf', '3lyXDm', 'fslcDS', 'XsSGWm',
+                    'NlsXDH', 'lslfRN', 'XsVBWG', 'ldjGzt', '3sXyRN', '4lVGRy', 'XtyGzc', '4tB3zV', 'XdBSWd',
+                    '4ssSRX', 'llj3Wy', 'XsX3Dr', 'ltdyDl', 'MsXXWH', 'MdBSDt', 'MlSSR1', '4dl3W8', 'MljXzz',
+                    'XlB3zV', '4l2XWh', 'ldl3zn', 'lsSGRc', '3dGSWR', 'MtSBDc', 'ld3Szs', '4tBXR1', 'XdfXzn', 
+                    'MdlyDs', 'MlscDj', 'MscSDB', 'Mss3WN', 'Ml2GWy', 'lsXSDn', '4sl3z4', 'Xs2SWd', 'wdfGW4',
+                    'WtfGDX', 'MdtGRl', '4dKXDy', 'MtsXzl', 'llS3RK', '4t2cR1', 'ldl3zl', 'lt2fDz', 'Xsc3R4', 
+                    'ldBGWW', 'ltccRl', 'Xs33Df', 'MdVSDh', 'lt2fD3', 'Mt3GWs', 'lsB3zD', 'MdKXzc', '4lf3Rj',
+                    'MlSBDt', '4tlSzl', '4sXGDs', 'XdfXDB', 'MlfGR4', '4sl3Dr', 'll2SRy', 'llXGR4', 'MlKGWK',
+                    'WtSfWK', 'XsBSRG', '4l23Rh', '4sjGD1', '4sjXzG', 'MsjSW3', 'Mds3z2', 'ftt3R7', 'ldBfDR',
+                    '4slSWf', 'lssGDj', 'MdSXzz', '4dtGWM', 'wttXDl', 'lsfGDB', 'XsfGzH', '4ttGDH', '4tlSWl',
+                    'XsjXR1', '4ts3z2', 'XtX3Rr', 'MsB3WR', '4s23zz', '3dVczw', 'MlXSWX', 'ldlXRS', 'XtGGRt', 
+                    'lsf3zr', 'Mss3zM', 'MdlXz8', 'ldl3zN', 'tsScRK', 'Xd23zh', 'ldj3Dm', '4dKGWm', 'MsXGRf', 
+                    'XtS3DD', 'Xtf3Rn', 'MslGWN', 'ldScDh', 'XsyGWV', 'MdfGRX', 'ltj3zR', '4dSGW1', 'MdBGzG', 
+                    '4sS3zG', 'XlfGRj', 'llK3Dy', 'llj3Rz', 'ldXXDj', 'MdlGW7', 'Ml2XRD', 'XtVczV', 'll3SWl', 
+                    '3lsSzf', '4dfGzs', 'ld3Gz2', 'lsl3RH', 'XsX3RB', '4lfXRf', 'XslGRr', 'MdX3Rr', '4ttSWf'
+                ];
+                var i = Math.round(Math.random() * (shadertoys.length - 1));
+                console.log(i);
+                var toy = shadertoys[i];//i];
+                console.log(toy);
+
+                shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
 
             })(); //end contained function
         </script>
