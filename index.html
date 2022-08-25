@@ -357,9 +357,14 @@
                     '4sS3zG', 'XlfGRj', 'llK3Dy', 'llj3Rz', 'ldXXDj', 'MdlGW7', 'Ml2XRD', 'XtVczV', 'll3SWl', 
                     '3lsSzf', '4dfGzs', 'ld3Gz2', 'lsl3RH', 'XsX3RB', '4lfXRf', 'XslGRr', 'MdX3Rr', '4ttSWf'
                 ];
+
+                shadertoys = ['voxel-corridor', 'desert-passage', 'glenz-vector-from-hell' ];
+
+                //load shader toy in iframe
                 var i = Math.round(Math.random() * (shadertoys.length - 1));
                 var toy = shadertoys[i];
-                shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
+                //shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
+                shadertoy.src = '/shadertoy/' + toy + '.html';
                 window.loadApps = loadApps;
             })(); //end contained function
 
