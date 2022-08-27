@@ -358,13 +358,74 @@
                     '3lsSzf', '4dfGzs', 'ld3Gz2', 'lsl3RH', 'XsX3RB', '4lfXRf', 'XslGRr', 'MdX3Rr', '4ttSWf'
                 ];
 
-                shadertoys = ['voxel-corridor', 'desert-passage', 'glenz-vector-from-hell' ];
+                shadertoys = [
+                    'auroras',
+                    'bacterium',
+                    'blue-landscape',
+                    'calientis-v',
+                    'cheap-cloud-flythrough',
+                    'cloud-ten', 
+                    'cross-galactic-ocean',
+                    'desert-canyon',
+                    'desert-passage',
+                    'digital-brain',
+                    'disco',
+                    'doski-canady',
+                    'enscape-cube',
+                    'escape',
+                    'ether',
+                    'eye-of-sauron',
+                    'fractal-flythrough',
+                    'frozen-barrens', 
+                    'glassy-field',
+                    'glenz-vector-from-hell', 
+                    'hellcarting',
+                    'icecube',
+                    'icosahedral-spiral',
+                    'industrial-complex',
+                    'interactive-thinks', 
+                    'interstellar',
+                    'jetstream',
+                    'journey',
+                    'la-calanque',
+                    'lava',
+                    'luminescence',
+                    'magnetismic', 
+                    'mario-world',
+                    'metahexaballs',
+                    'minecraft',
+                    'misty-lake',
+                    'mobius-object', 
+                    'neon-lit-hexagons',
+                    'neon-world',
+                    'neptune-racing',
+                    'opera-game',
+                    'orbital-flight', 
+                    'outrun-the-rain',
+                    'plasma-globe',
+                    'postcard',
+                    'puffy',
+                    'red-cells',
+                    'simplicity',
+                    'sirenian-dawn',
+                    'starleidoscope',
+                    'sun-surface',
+                    'sunrise-sunset', 
+                    'timewarp',
+                    'tiny-planet-earth',
+                    'topologica',
+                    'torus-thingy',
+                    'type2-supernova', 
+                    'voxel-corridor',
+                    'wolfenstein3d',
+                    'worley-noise-waters'
+                ];
 
                 //load shader toy in iframe
                 var i = Math.round(Math.random() * (shadertoys.length - 1));
                 var toy = shadertoys[i];
                 //shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
-                shadertoy.src = '/shadertoy/' + toy + '.html';
+                shadertoy.src = '/shadertoy/shadertoy.html?toy=' + toy;
                 window.loadApps = loadApps;
             })(); //end contained function
 
