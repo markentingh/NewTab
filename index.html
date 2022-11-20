@@ -6,31 +6,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
         <link rel="stylesheet" type="text/css" href="/tapestry.css"/>
-        <script>
-            (function(){
-                //load theme based on query string  ///////////////////////////////////////////////////
-                function getParameterByName(name, url) {
-                    if (!url) url = window.location.href;
-                    name = name.replace(/[\[\]]/g, "\\$&");
-                    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-                        results = regex.exec(url);
-                    if (!results) return null;
-                    if (!results[2]) return '';
-                    return decodeURIComponent(results[2].replace(/\+/g, " "));
-                }
-
-                var themeName = getParameterByName('theme');
-                if(themeName != null && themeName != ''){
-                    var themecss = document.getElementById('themecss');
-                    themecss.href = themecss.href.replace('pearl', themeName);
-                }
-                ///////////////////////////////////////////////////////////////////////////////////////
-            })();
-        </script>
         <style type="text/css">
             body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover;}
             #svglist{display:none;}
-            #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0; pointer-events:none;}
+            #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0;}
             .menu-icon{position:absolute; top:50px; left:50px; display:none;}
             .menu-icon img{width:32px; opacity:0.25;}
             .menu-icon:hover img{opacity:0.75;}
@@ -102,7 +81,7 @@
         <div id="menu" class="menu-icon"><img src="/images/menu-icon.png"/></div>
         <div id="apps" class="apps flex"></div>
         <div id="apps2" class="apps flex"></div>
-        <div id="hideapps" onclick="hideApps()"></div>
+        <!--<div id="hideapps" onclick="hideApps()"></div>-->
 
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
@@ -116,18 +95,6 @@
                 var divapp2 = d.getElementById('app2');
                 var divapps2 = d.getElementById('apps2');
                 var apps = [
-                    //{
-                    //    title:'Trello',
-                    //    developer:'Trello',
-                    //    icon:'trello.png',
-                    //    url:'https://www.trello.com'
-                    //},
-                    //{
-                    //    title:'Evernote',
-                    //    developer:'Evernote',
-                    //    icon:'evernote.png',
-                    //    url:'https://www.evernote.com'
-                    //},
                     {
                         title:'Kandu',
                         developer:'Datasilk',
@@ -218,18 +185,6 @@
                         icon:'twitch.png',
                         url:'https://www.twitch.tv/unknownracerx'
                     },
-                    //{
-                    //    title:'Feedly',
-                    //    developer:'Feedly',
-                    //    icon:'feedly.png',
-                    //    url:'https://www.feedly.com'
-                    //},
-                    //{
-                    //    title:'Wells Fargo',
-                    //    developer:'Wells Fargo',
-                    //    icon:'wellsfargo.png',
-                    //    url:'https://www.wellsfargo.com'
-                    //},
                     {
                         title:'Chase',
                         developer:'Chase',
@@ -260,13 +215,6 @@
                         icon:'amazon_aws.png',
                         url:'https://us-west-2.console.aws.amazon.com/console/home?region=us-west-2'
                     }
-                    /*,
-                    {
-                        title:'eBay',
-                        developer:'eBay',
-                        icon:'ebay.png',
-                        url:'https://ebay.com'
-                    }*/
                 ];
 
                 var apps2 = [
@@ -276,6 +224,13 @@
                         icon:'datasilk.png',
                         url:'https://www.datasilk.io'
                     }
+                    ,
+                    /*{
+                        title:'eBay',
+                        developer:'eBay',
+                        icon:'ebay.png',
+                        url:'https://ebay.com'
+                    }*/
                 ];
 
                 //load random 4K background
@@ -440,6 +395,12 @@
                     apps2.style.display = 'none';
                 }
             }
+
+            document.addEventListener('keydown', function(e) {
+                if(e.keyCode == 27){
+                hideApps();
+                }
+            });
 
             if(location.href.indexOf('?noapps') > 0){
                 hideApps();
