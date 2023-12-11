@@ -29,6 +29,10 @@
 
             #hideapps{position:fixed; bottom:20px; left:20px; width:10px; height:10px; border-radius:50px; background-color:#000;}
 
+            .toys-list{position:absolute; top:20px; right:20px; height:100%; overflow-x:none; overflow-y:auto; padding:20px; background:#000; z-index:1000;}
+            .toys-list a{padding:5px; color:#fff; text-decoration:none; display:block; font-family: monospace;}
+            .toys-list a.selected{background-color:#009d4c}
+
             /* responsive icons ////////////////////////////////// */
 
             @media(max-width:1768px){
@@ -59,6 +63,7 @@
         </style>
     </head>
     <body class="box">
+        <div id="toyslist" class="toys-list" style="display:none"></div>
         <div id="shadertoybg">
             <iframe src="about:blank" id="shadertoy" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>
         </div>
@@ -233,13 +238,269 @@
                     }*/
                 ];
 
-                //load random 4K background
-                var imagelength = 13;
-                var img = getRandomImage();
-                //document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
-                //override image (optional, for custom image)
-                //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
+                var simTypeRatio = {
+                    images:{start:1, end:5},
+                    shadertoys:{start:6, end:70},
+                    n64:{start:71, end:100}
+                };
+                
+                var simRand = 10; //1 + Math.round(Math.random() * 100);
+                if(simRand >= simTypeRatio.images.start && simRand <= simTypeRatio.images.end){
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //load random 4K background ///////////////////////////////////////////////////////////////////////////////
+                    var imagelength = 13;
+                    var img = getRandomImage();
+                    //document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+                    //override image (optional, for custom image)
+                    //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
+                }else if(simRand >= simTypeRatio.shadertoys.start && simRand <= simTypeRatio.shadertoys.end){
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //load shader toy in background ///////////////////////////////////////////////////////////////////////////
+                    //var shadertoys = [
+                    //    '4lX3RB', 'MsXGR2', 'tlXSzB', '4scGDH', 'XsBXDc', 'MdjGWc', 'MlB3Wt', '4l2XWK', 'lsSGWw',
+                    //    'Mt3GW2', 'ldXGDr', 'XtlfDn', 'MdfBzl', '4tscR8', 'XlXXWj', 'XltGRX', '4dt3RX', 'XlfyWl',
+                    //    'tsyBDm', 'XsfBRH', 'llGGzh', 'llXSW2', '3dXGWB', '4tfBRf', '3lyXDm', 'fslcDS', 'XsSGWm',
+                    //    'NlsXDH', 'lslfRN', 'XsVBWG', 'ldjGzt', '3sXyRN', '4lVGRy', 'XtyGzc', '4tB3zV', 'XdBSWd',
+                    //    '4ssSRX', 'llj3Wy', 'XsX3Dr', 'ltdyDl', 'MsXXWH', 'MdBSDt', 'MlSSR1', '4dl3W8', 'MljXzz',
+                    //    'XlB3zV', '4l2XWh', 'ldl3zn', 'lsSGRc', '3dGSWR', 'MtSBDc', 'ld3Szs', '4tBXR1', 'XdfXzn', 
+                    //    'MdlyDs', 'MlscDj', 'MscSDB', 'Mss3WN', 'Ml2GWy', 'lsXSDn', '4sl3z4', 'Xs2SWd', 'wdfGW4',
+                    //    'WtfGDX', 'MdtGRl', '4dKXDy', 'MtsXzl', 'llS3RK', '4t2cR1', 'ldl3zl', 'lt2fDz', 'Xsc3R4', 
+                    //    'ldBGWW', 'ltccRl', 'Xs33Df', 'MdVSDh', 'lt2fD3', 'Mt3GWs', 'lsB3zD', 'MdKXzc', '4lf3Rj',
+                    //    'MlSBDt', '4tlSzl', '4sXGDs', 'XdfXDB', 'MlfGR4', '4sl3Dr', 'll2SRy', 'llXGR4', 'MlKGWK',
+                    //    'WtSfWK', 'XsBSRG', '4l23Rh', '4sjGD1', '4sjXzG', 'MsjSW3', 'Mds3z2', 'ftt3R7', 'ldBfDR',
+                    //    '4slSWf', 'lssGDj', 'MdSXzz', '4dtGWM', 'wttXDl', 'lsfGDB', 'XsfGzH', '4ttGDH', '4tlSWl',
+                    //    'XsjXR1', '4ts3z2', 'XtX3Rr', 'MsB3WR', '4s23zz', '3dVczw', 'MlXSWX', 'ldlXRS', 'XtGGRt', 
+                    //    'lsf3zr', 'Mss3zM', 'MdlXz8', 'ldl3zN', 'tsScRK', 'Xd23zh', 'ldj3Dm', '4dKGWm', 'MsXGRf', 
+                    //    'XtS3DD', 'Xtf3Rn', 'MslGWN', 'ldScDh', 'XsyGWV', 'MdfGRX', 'ltj3zR', '4dSGW1', 'MdBGzG', 
+                    //    '4sS3zG', 'XlfGRj', 'llK3Dy', 'llj3Rz', 'ldXXDj', 'MdlGW7', 'Ml2XRD', 'XtVczV', 'll3SWl', 
+                    //    '3lsSzf', '4dfGzs', 'ld3Gz2', 'lsl3RH', 'XsX3RB', '4lfXRf', 'XslGRr', 'MdX3Rr', '4ttSWf'
+                    //];
 
+                    shadertoys = [
+                        '301s-fire-shader',
+                        '80s-sunset',
+                        'a-lonely-diamond',
+                        'abandoned-base',
+                        'abstract-plane',
+                        'ascii-terminal',
+                        'auroras',
+                        'bacterium',
+                        'beautiful-in-space',
+                        'blender-donut',
+                        'bloodcells',
+                        'blue-landscape',
+                        'bridge',
+                        'bubble-buckey-balls',
+                        'calientis-v',
+                        'campfire',
+                        'canyon',
+                        'cheap-cloud-flythrough',
+                        'cloud-ten', 
+                        'clouds',
+                        'cloudy-terrain',
+                        //'cold-terrain',
+                        'columns-and-lights',
+                        'combustible-voronoi',
+                        'corridor',
+                        'cross-galactic-ocean',
+                        'deathstar',
+                        'descent-city',
+                        'desert-canyon',
+                        'desert-mountains',
+                        'desert-passage',
+                        'digital-brain',
+                        'disco',
+                        'doski-canady',
+                        'dull-skull',
+                        //'dungeon',
+                        'electric',
+                        'elevated',
+                        'elevator-to-infinity',
+                        'english-lane',
+                        'enscape-cube',
+                        'escape',
+                        'ether',
+                        'eye-of-sauron',
+                        'fish-swimming',
+                        'flaring',
+                        'flow',
+                        'flowing-lava',
+                        'flux-core',
+                        'fractal-flythrough',
+                        'fractal-land',
+                        'frozen-barrens', 
+                        'frozen-wasteland',
+                        'galaxy',
+                        'glassy-field',
+                        'glenz-vector-from-hell', 
+                        'glowing-cells',
+                        'glowing-polygons',
+                        'goo',
+                        'greek-temple',
+                        'grid-of-capsules',
+                        'happy-jumping',
+                        'heartfelt',
+                        'hell',
+                        'hellcarting',
+                        'hexagonal-wood',
+                        'hexagons',
+                        'hot-shower',
+                        'human-document',
+                        'icecube',
+                        'icosahedral',
+                        'icosahedral-spiral',
+                        'industrial-complex',
+                        'interactive-thinks', 
+                        'intersection',
+                        'interstellar',
+                        'jetstream',
+                        'journey',
+                        //'la-calanque',
+                        //'ladybug',
+                        'lava',
+                        'lava-lamp',
+                        'lava-planet',
+                        'lightsaber-battle',
+                        'luminescence',
+                        'magnetismic', 
+                        'mandelbulb',
+                        'mario-world',
+                        'metahexaballs',
+                        'metal-ball',
+                        'minecraft',
+                        'minecraft-gi',
+                        'misty-lake',
+                        'mobius-object',
+                        'morning-commute',
+                        'multiple-transparency',
+                        'neon-pink-hexagons',
+                        'neon-space-cube',
+                        'neon-topology',
+                        'neon-triangle',
+                        'neon-lit-hexagons',
+                        'neon-world',
+                        'neonwave-sunrise',
+                        'neptune-racing',
+                        'noisy-canyon',
+                        'oceanic',
+                        'old-watch',
+                        'one-way-trip',
+                        'opera-game',
+                        'orbital-flight', 
+                        'outrun-the-rain',
+                        'ozora-festival',
+                        'petroleum',
+                        'planet',
+                        'plasma-globe',
+                        'postcard',
+                        'protean-clouds',
+                        'psychedelic-spins',
+                        'puffy',
+                        'quadtree-prisms',
+                        'quake-intro',
+                        'raindrops',
+                        'rainy-day',
+                        'red-cells',
+                        'refractive-cube',
+                        'refractive-polyhedron',
+                        'rhodium-liquid-carbon',
+                        'rolling-cubes',
+                        'saturday-hacking',
+                        'shuto-highway',
+                        'simplicity',
+                        'sirenian-dawn',
+                        'soccermania',
+                        'space-curvature',
+                        'sparkle-plexus',
+                        'speed-drive-80',
+                        'star-nest',
+                        'star-nursery',
+                        'starfield',
+                        'starguy',
+                        'starleidoscope',
+                        'storm',
+                        'sun-surface',
+                        'sunrise-sunset', 
+                        'sunset-ocean',
+                        'supernova-remnant',
+                        'suture-fluid',
+                        'tentacle-object',
+                        'the-drive-home',
+                        'timewarp',
+                        'tiny-planet-earth',
+                        'topologica',
+                        'torus-thingy',
+                        'train-cloud-sea',
+                        'trippy-triangle',
+                        'turn-and-burn',
+                        'type2-supernova', 
+                        'valley-race',
+                        'venice',
+                        'voxel-corridor',
+                        'voxel-edges',
+                        'voxel-islands',
+                        'warping',
+                        'waves',
+                        'wolfenstein3d',
+                        'worley-noise-waters',
+                        'worms',
+                        'xyptonjtroz'
+                    ];
+                    
+                    //select shader toy to load
+                    var i = Math.round(Math.random() * (shadertoys.length - 1));
+                    var toy = shadertoys[i];
+                    if(window.location.href.indexOf('toy=') > 0){
+                        toy = window.location.href.split('toy=')[1];
+                        for(var x = 0; x < shadertoys.length - 1; x++){
+                            if(shadertoys[x] == toy){
+                                i = x;
+                                break;
+                            }
+                        }
+                    }
+
+                    //generate popup menu items
+                    toyslist.innerHTML = shadertoys.map(a => '<a href="/?toy=' + a + '"' + (a == toy ? ' class="selected"' : '') + '>' + a + '</a>').join('');
+
+                    //set up keypress events
+                    document.addEventListener('keydown', function(e) {
+                        switch(e.keyCode){
+                            case 192: //tilde
+                                if(toyslist.style.display == 'block'){
+                                    toyslist.style.display = 'none';
+                                }else{
+                                    toyslist.style.display = 'block';
+                                    toyslist.querySelector('#toyslist a.selected').scrollIntoView();
+                                }
+                                break;
+                            case 37: //left key
+                                i = i - 1;
+                                if(i < 0){i = shadertoys.length - 1;}
+                                window.location.href = '/?toy=' + shadertoys[i];
+                                break;
+                            case 39: //right key
+                                i = i + 1;
+                                if(i >= shadertoys.length){i = 0;}
+                                window.location.href = '/?toy=' + shadertoys[i];
+                                break;
+                        }
+                        //console.log(e.keyCode);
+                    });
+
+                    //load shader toy in iframe
+                    //shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
+                    shadertoy.src = '/shadertoy/shadertoy.html?toy=' + toy;
+
+                    //load app icons
+                    window.loadApps = loadApps;
+
+                }else if(simRand >= simTypeRatio.shadertoys.start && simRand <= simTypeRatio.shadertoys.end){
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //load Nintendo 64 emulator (https://github.com/lrusso/Nintendo64) ////////////////////////////////////////
+                    var script = document.createElement('script');
+                    document.body.appendChild();
+                }
                 //remove templates
                 divapp.parentNode.removeChild(divapp);
                 divapp2.parentNode.removeChild(divapp2);
@@ -292,96 +553,6 @@
                     return lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
                 }
 
-                //load shader toy in background ///////////////////////////////////////////////////////////////
-                var shadertoys = [
-                    '4lX3RB', 'MsXGR2', 'tlXSzB', '4scGDH', 'XsBXDc', 'MdjGWc', 'MlB3Wt', '4l2XWK', 'lsSGWw',
-                    'Mt3GW2', 'ldXGDr', 'XtlfDn', 'MdfBzl', '4tscR8', 'XlXXWj', 'XltGRX', '4dt3RX', 'XlfyWl',
-                    'tsyBDm', 'XsfBRH', 'llGGzh', 'llXSW2', '3dXGWB', '4tfBRf', '3lyXDm', 'fslcDS', 'XsSGWm',
-                    'NlsXDH', 'lslfRN', 'XsVBWG', 'ldjGzt', '3sXyRN', '4lVGRy', 'XtyGzc', '4tB3zV', 'XdBSWd',
-                    '4ssSRX', 'llj3Wy', 'XsX3Dr', 'ltdyDl', 'MsXXWH', 'MdBSDt', 'MlSSR1', '4dl3W8', 'MljXzz',
-                    'XlB3zV', '4l2XWh', 'ldl3zn', 'lsSGRc', '3dGSWR', 'MtSBDc', 'ld3Szs', '4tBXR1', 'XdfXzn', 
-                    'MdlyDs', 'MlscDj', 'MscSDB', 'Mss3WN', 'Ml2GWy', 'lsXSDn', '4sl3z4', 'Xs2SWd', 'wdfGW4',
-                    'WtfGDX', 'MdtGRl', '4dKXDy', 'MtsXzl', 'llS3RK', '4t2cR1', 'ldl3zl', 'lt2fDz', 'Xsc3R4', 
-                    'ldBGWW', 'ltccRl', 'Xs33Df', 'MdVSDh', 'lt2fD3', 'Mt3GWs', 'lsB3zD', 'MdKXzc', '4lf3Rj',
-                    'MlSBDt', '4tlSzl', '4sXGDs', 'XdfXDB', 'MlfGR4', '4sl3Dr', 'll2SRy', 'llXGR4', 'MlKGWK',
-                    'WtSfWK', 'XsBSRG', '4l23Rh', '4sjGD1', '4sjXzG', 'MsjSW3', 'Mds3z2', 'ftt3R7', 'ldBfDR',
-                    '4slSWf', 'lssGDj', 'MdSXzz', '4dtGWM', 'wttXDl', 'lsfGDB', 'XsfGzH', '4ttGDH', '4tlSWl',
-                    'XsjXR1', '4ts3z2', 'XtX3Rr', 'MsB3WR', '4s23zz', '3dVczw', 'MlXSWX', 'ldlXRS', 'XtGGRt', 
-                    'lsf3zr', 'Mss3zM', 'MdlXz8', 'ldl3zN', 'tsScRK', 'Xd23zh', 'ldj3Dm', '4dKGWm', 'MsXGRf', 
-                    'XtS3DD', 'Xtf3Rn', 'MslGWN', 'ldScDh', 'XsyGWV', 'MdfGRX', 'ltj3zR', '4dSGW1', 'MdBGzG', 
-                    '4sS3zG', 'XlfGRj', 'llK3Dy', 'llj3Rz', 'ldXXDj', 'MdlGW7', 'Ml2XRD', 'XtVczV', 'll3SWl', 
-                    '3lsSzf', '4dfGzs', 'ld3Gz2', 'lsl3RH', 'XsX3RB', '4lfXRf', 'XslGRr', 'MdX3Rr', '4ttSWf'
-                ];
-
-                shadertoys = [
-                    'auroras',
-                    'bacterium',
-                    'blue-landscape',
-                    'calientis-v',
-                    'cheap-cloud-flythrough',
-                    'cloud-ten', 
-                    'cross-galactic-ocean',
-                    'desert-canyon',
-                    'desert-passage',
-                    'digital-brain',
-                    'disco',
-                    'doski-canady',
-                    'enscape-cube',
-                    'escape',
-                    'ether',
-                    'eye-of-sauron',
-                    'fractal-flythrough',
-                    'frozen-barrens', 
-                    'glassy-field',
-                    'glenz-vector-from-hell', 
-                    'hellcarting',
-                    'icecube',
-                    'icosahedral-spiral',
-                    'industrial-complex',
-                    'interactive-thinks', 
-                    'interstellar',
-                    'jetstream',
-                    'journey',
-                    'la-calanque',
-                    'lava',
-                    'luminescence',
-                    'magnetismic', 
-                    'mario-world',
-                    'metahexaballs',
-                    'minecraft',
-                    'misty-lake',
-                    'mobius-object', 
-                    'neon-lit-hexagons',
-                    'neon-world',
-                    'neptune-racing',
-                    'opera-game',
-                    'orbital-flight', 
-                    'outrun-the-rain',
-                    'plasma-globe',
-                    'postcard',
-                    'puffy',
-                    'red-cells',
-                    'simplicity',
-                    'sirenian-dawn',
-                    'starleidoscope',
-                    'sun-surface',
-                    'sunrise-sunset', 
-                    'timewarp',
-                    'tiny-planet-earth',
-                    'topologica',
-                    'torus-thingy',
-                    'type2-supernova', 
-                    'voxel-corridor',
-                    'wolfenstein3d',
-                    'worley-noise-waters'
-                ];
-
-                //load shader toy in iframe
-                var i = Math.round(Math.random() * (shadertoys.length - 1));
-                var toy = shadertoys[i];
-                //shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
-                shadertoy.src = '/shadertoy/shadertoy.html?toy=' + toy;
-                window.loadApps = loadApps;
             })(); //end contained function
 
             function hideApps(){
@@ -397,8 +568,10 @@
             }
 
             document.addEventListener('keydown', function(e) {
-                if(e.keyCode == 27){
-                hideApps();
+                switch(e.keyCode){
+                    case 27: //escape
+                        hideApps();
+                        break;
                 }
             });
 

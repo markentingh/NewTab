@@ -1,0 +1,64 @@
+var jsnShader = [
+    {
+        "ver": "0.1",
+        "renderpass": [
+          {
+            "outputs": [
+              {
+                "channel": 0,
+                "id": "4dfGRr"
+              }
+            ],
+            "inputs": [
+              {
+                "channel": 0,
+                "type": "texture",
+                "id": "Xsf3zn",
+                "filepath": "/media/a/f735bee5b64ef98879dc618b016ecf7939a5756040c2cde21ccb15e69a6e1cfb.png",
+                "sampler": {
+                  "filter": "linear",
+                  "wrap": "repeat",
+                  "vflip": "false",
+                  "srgb": "false",
+                  "internal": "byte"
+                }
+              }
+            ],
+            "code": "// Copyright Inigo Quilez, 2013 - https://iquilezles.org/\n// I am the sole copyright owner of this Work.\n// You cannot host, display, distribute or share this Work in any form,\n// including physical and digital. You cannot use this Work in any\n// commercial or non-commercial product, website or project. You cannot\n// sell this Work and you cannot mint an NFTs of it.\n// I share this Work for educational purposes, and you can link to it,\n// through an URL, proper attribution and unmodified screenshot, as part\n// of your educational material. If these conditions are too restrictive\n// please contact me and we'll definitely work it out.\n\nfloat noise( in vec2 x )\n{\n    vec2 p = floor(x);\n    vec2 f = fract(x);\n\tf = f*f*(3.0-2.0*f);\n\t\n\tvec2 uv = (p.xy) + f.xy;\n\treturn textureLod( iChannel0, (uv+ 0.5)/256.0, 0.0 ).x;\n}\n\nfloat noise( in vec3 x )\n{\n    vec3 p = floor(x);\n    vec3 f = fract(x);\n\tf = f*f*(3.0-2.0*f);\n\t\n\tvec2 uv = (p.xy+vec2(37.0,17.0)*p.z) + f.xy;\n\tvec2 rg = textureLod( iChannel0, (uv+ 0.5)/256.0, 0.0 ).yx;\n\treturn mix( rg.x, rg.y, f.z );\n}\n\nfloat hash( in float n )\n{\n    return fract(sin(n)*43758.5453);\n}\n\n// coulds\nvec4 map( vec3 p, vec2 ani )\n{\n\tvec3 r = p;\n\t\n\tfloat h = (0.7+0.3*ani.x) * noise( 0.76*r.xz );\n\tr.y -= h;\n\t\n\tfloat den = -(r.y + 2.5);\n\tr +=  0.2*vec3(0.0,0.0,1.0)*ani.y;\n\t\t\n\tvec3 q = 2.5*r*vec3(1.0,1.0,0.15)    + vec3(1.0,1.0,1.0)*ani.y*0.15;\n\tfloat f;\n    f  = 0.50000*noise( q ); q = q*2.02 - vec3(-1.0,1.0,-1.0)*ani.y*0.15;\n    f += 0.25000*noise( q ); q = q*2.03 + vec3(1.0,-1.0,1.0)*ani.y*0.15;\n    f += 0.12500*noise( q ); q = q*2.01 - vec3(1.0,1.0,-1.0)*ani.y*0.15;\n    q.z *= 4.0;\n    f += 0.06250*noise( q ); q = q*2.02 + vec3(1.0,1.0,1.0)*ani.y*0.15;\n    f += 0.03125*noise( q );\n\t\n    float es = \t1.0-clamp( (r.y+1.0)/0.26,0.0,1.0);\n    f += f*(1.0-f)*0.6*sin(q.z)*es;\t\n\tden = clamp( den + 4.4*f, 0.0, 1.0 );\n\n    // color\t\n\tvec3 col = mix( vec3(0.2,0.3,0.3), vec3(1.0,1.0,1.0), clamp( (r.y+2.5)/3.0,0.0,1.0) );\n    col = mix( col, 3.0*vec3(1.0,1.1,1.20)*(0.2+0.8*ani.x), es );\n\tcol *= mix( vec3(0.1,0.32,0.38), vec3(1.05,0.95,0.75), f*1.2 );\n    col = col*(0.8-0.5*ani.x) + ani.x*2.0*smoothstep(0.75,0.86,sin(10.0*ani.y+2.0*r.z + r.x*10.0))*smoothstep(0.6,0.8,f)*vec3(1.0,0.8,0.5)*smoothstep( 0.7, 0.9, noise(q.yx) );\n\t\n\treturn vec4( col, den );\n}\n\n// light direction\nvec3 lig = normalize(vec3(-1.0,1.0,-1.0));\n\t\t\t\t\t \nvec3 raymarch( in vec3 ro, in vec3 rd, in vec2 ani, in vec2 pixel )\n{\n    // background color\t\n\tvec3 bgc = vec3(0.6,0.7,0.7) + 0.3*rd.y;\n    bgc *= 0.2;\n\t\n\n    // dithering\t\n    float t = 0.03*fract(10.5421*dot(vec2(0.0149451,0.038921),pixel));\n      \n    // raymarch\t\n\tvec4 sum = vec4( 0.0 );\n\tfor( int i=0; i<150; i++ )\n\t{\n\t\tif( sum.a > 0.99 ) continue;\n\t\t\n\t\tvec3 pos = ro + t*rd;\n\t\tvec4 col = map( pos, ani );\n\n        // lighting\t\t\n\t\tfloat dif = 0.1 + 0.4*(col.w - map( pos + lig*0.15, ani ).w);\n\t\tcol.xyz += dif;\n\n        // fog\t\t\n\t\tcol.xyz = mix( col.xyz, bgc, 1.0-exp(-0.005*t*t) );\n\t\t\n\t\tcol.rgb *= col.a;\n\t\tsum = sum + col*(1.0 - sum.a);\t\n\n        // advance ray with LOD\n\t\tt += 0.03+t*0.012;\n\t}\n\n    // blend with background\t\n\tsum.xyz = mix( bgc, sum.xyz/(sum.w+0.0001), sum.w );\n\t\n\treturn clamp( sum.xyz, 0.0, 1.0 );\n}\n\nvoid mainImage( out vec4 fragColor, in vec2 fragCoord )\n{\n\tvec2 q = fragCoord.xy / iResolution.xy;\n    vec2 p = -1.0 + 2.0*q;\n    p.x *= iResolution.x/ iResolution.y;\n\t\n    vec2 mo = iMouse.xy / iResolution.xy;\n    if( iMouse.w<=0.00001 ) mo=vec2(0.0);\n\t\n\tfloat time = iTime;\n\t\n\tvec2 ani = vec2(1.0);\n\tfloat ati = time/17.0;\n\tfloat pt = mod( ati, 2.0 );\n\tani.x = smoothstep( 0.3, 0.7, pt ) - smoothstep( 1.3, 1.7, pt );\n\tfloat it = floor( 0.75 + ati*0.5 + 0.1 );\n\tfloat ft = fract( 0.75 + ati*0.5 + 0.1 );\n\tft = smoothstep( 0.0, 0.6, ft );\n\tani.y = time*0.15 + 30.0*(it + ft); \n\t\n\t// camera parameters\n\tvec4 camPars = texture( iChannel0, floor(1.0+iTime/5.5)*vec2(5.0,7.0)/iChannelResolution[0].xy );\n\t\n    // camera position\n    vec3 ro = 4.0*normalize(vec3(cos(30.0*camPars.x + 0.023*time), 0.3+0.2*sin(30.0*camPars.x + 0.08*time), sin(30.0*camPars.x + 0.023*iTime)));\n\tvec3 ta = vec3(0.0, 0.0, 0.0);\n\tfloat cr = 0.25*cos(30.0*camPars.y + 0.1*time);\n\n    // shake\t\t\n\tro += ani.x*ani.x*0.05*(-1.0+2.0*texture( iChannel0, 1.035*time*vec2(0.010,0.014) ).xyz);\n\tta += ani.x*ani.x*0.20*(-1.0+2.0*texture( iChannel0, 1.035*time*vec2(0.013,0.008) ).xyz);\n\t\n\t// build ray\n    vec3 ww = normalize( ta - ro);\n    vec3 uu = normalize(cross( vec3(sin(cr),cos(cr),0.0), ww ));\n    vec3 vv = normalize(cross(ww,uu));\n    vec3 rd = normalize( p.x*uu + p.y*vv + (2.5 + 3.5*pow(camPars.z,2.0))*ww );\n\t\n    // raymarch\t\n\tvec3 col = raymarch( ro, rd, ani, fragCoord );\n\t\n\t// contrast, saturation and vignetting\t\n\tcol = col*col*(3.0-2.0*col);\n    col = mix( col, vec3(dot(col,vec3(0.33))), -0.5 );\n\tcol *= 0.25 + 0.75*pow( 16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.1 );\n\t\n\tcol *= 1.0-smoothstep( 0.4, 0.5, abs(fract(iTime/5.5)-0.5) )*(1.0-sqrt(ani.x));\n    fragColor = vec4( col, 1.0 );\n}\n",
+            "name": "Image",
+            "description": "",
+            "type": "image"
+          }
+        ],
+        "flags": {
+          "mFlagVR": false,
+          "mFlagWebcam": false,
+          "mFlagSoundInput": false,
+          "mFlagSoundOutput": false,
+          "mFlagKeyboard": false,
+          "mFlagMultipass": false,
+          "mFlagMusicStream": false
+        },
+        "info": {
+          "id": "Xd23zh",
+          "date": "1383710933",
+          "viewed": 33994,
+          "name": "Storm",
+          "username": "iq",
+          "description": "Raymarching more fbm()",
+          "likes": 324,
+          "published": 3,
+          "flags": 0,
+          "usePreview": 1,
+          "tags": [
+            "3d",
+            "raymarching"
+          ],
+          "hasliked": 1,
+          "parentid": "",
+          "parentname": ""
+        }
+      }
+];
+
+compileAndStart(jsnShader);
