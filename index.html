@@ -7,7 +7,7 @@
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
         <link rel="stylesheet" type="text/css" href="/tapestry.css"/>
         <style type="text/css">
-            body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover;}
+            body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover; background-position: center;}
             #svglist{display:none;}
             #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0;}
             .menu-icon{position:absolute; top:50px; left:50px; display:none;}
@@ -75,14 +75,6 @@
                 </a>
             </div>
         </div>
-        <div id="app2">
-            <div class="col hd-one tablet-two tablet-sm-three mobile-four flexed">
-                <a href="{{url}}">
-                    <img {{icon}}>
-                    <span>{{title}}</span>
-                </a>
-            </div>
-        </div>
         <div id="menu" class="menu-icon"><img src="/images/menu-icon.png"/></div>
         <div id="apps" class="apps flex"></div>
         <div id="apps2" class="apps flex"></div>
@@ -97,8 +89,6 @@
                 var body = d.body;
                 var divapp = d.getElementById('app');
                 var divapps = d.getElementById('apps');
-                var divapp2 = d.getElementById('app2');
-                var divapps2 = d.getElementById('apps2');
                 var apps = [
                     {
                         title:'Kandu',
@@ -142,18 +132,18 @@
                         icon:'google_calendar.png',
                         url:'https://www.google.com/calendar'
                     },
-                    {
-                        title:'Hacker News',
-                        developer:'Y-Combinator',
-                        icon:'hackernews.png',
-                        url:'https://news.ycombinator.com/'
-                    },
-                    {
-                        title:'Amazon',
-                        developer:'Amazon',
-                        icon:'amazon.png',
-                        url:'https://www.amazon.com'
-                    },
+                    //{
+                    //    title:'Hacker News',
+                    //    developer:'Y-Combinator',
+                    //    icon:'hackernews.png',
+                    //    url:'https://news.ycombinator.com/'
+                    //},
+                    //{
+                    //    title:'Amazon',
+                    //    developer:'Amazon',
+                    //    icon:'amazon.png',
+                    //    url:'https://www.amazon.com'
+                    //},
                     {
                         title:'Facebook',
                         developer:'Facebook',
@@ -161,34 +151,58 @@
                         url:'https://www.facebook.com/warhero'
                     },
                     {
-                        title:'HBO Max',
-                        developer:'HBO',
-                        icon:'hbomax.png',
-                        url:'https://play.hbomax.com/'
+                        title:'Github',
+                        developer:'Github',
+                        icon:'github.png',
+                        url:'https://github.com/markentingh'
                     },
+                    //{
+                    //    title:'HBO Max',
+                    //    developer:'HBO',
+                    //    icon:'hbomax.png',
+                    //    url:'https://play.hbomax.com/'
+                    //},
                     //{
                     //    title:'Netflix',
                     //    developer:'Netflix',
                     //    icon:'netflix.jpg',
                     //    url:'https://www.netflix.com'
                     //},
+                    //{
+                    //    title:'Disney+',
+                    //    developer:'Disney',
+                    //    icon:'disney_plus.png',
+                    //    url:'https://www.disneyplus.com'
+                    //},
+                    //{
+                    //    title:'Crunchy Roll',
+                    //    developer:'Crunchy Roll',
+                    //    icon:'crunchyroll.png',
+                    //    url:'https://www.crunchyroll.com'
+                    //},
+                    //{
+                    //    title:'Twitch',
+                    //    developer:'Twitch',
+                    //    icon:'twitch.png',
+                    //    url:'https://www.twitch.tv/unknownracerx'
+                    //},
                     {
-                        title:'Disney+',
-                        developer:'Disney',
-                        icon:'disney_plus.png',
-                        url:'https://www.disneyplus.com'
+                        title:'MidJourney',
+                        developer:'Midjourney, Inc',
+                        icon:'midjourney.png',
+                        url:'https://www.midjourney.com/imagine'
                     },
                     {
-                        title:'Crunchy Roll',
-                        developer:'Crunchy Roll',
-                        icon:'crunchyroll.png',
-                        url:'https://www.crunchyroll.com'
+                        title:'ChatGPT',
+                        developer:'OpenAI, Inc',
+                        icon:'chatgpt.png',
+                        url:'https://chatgpt.com'
                     },
                     {
-                        title:'Twitch',
-                        developer:'Twitch',
-                        icon:'twitch.png',
-                        url:'https://www.twitch.tv/unknownracerx'
+                        title:'h!anime.to',
+                        developer:'h!anime',
+                        icon:'hianime.png',
+                        url:'https://hianime.to/user/watch-list?type=1&sort='
                     },
                     {
                         title:'Chase',
@@ -196,61 +210,60 @@
                         icon:'chase.png',
                         url:'https://www.chase.com'
                     },
+                    //{
+                    //    title:'Mint',
+                    //    developer:'Mint',
+                    //    icon:'mint.png',
+                    //    url:'https://www.mint.com'
+                    //},
                     {
-                        title:'Mint',
-                        developer:'Mint',
-                        icon:'mint.png',
-                        url:'https://www.mint.com'
+                        title:'Monarch',
+                        developer:'Monarch',
+                        icon:'monarch.png',
+                        url:'https://app.monarchmoney.com/'
                     },
-                    {
-                        title:'Weather Underground',
-                        developer:'WU',
-                        icon:'wundermap2.png',
-                        url:'https://www.wunderground.com/'
-                    },
-                    {
-                        title:'GitHub',
-                        developer:'Github',
-                        icon:'github.png',
-                        url:'https://github.com/markentingh'
-                    },
+                    //{
+                    //    title:'Weather Underground',
+                    //    developer:'WU',
+                    //    icon:'wundermap2.png',
+                    //    url:'https://www.wunderground.com/'
+                    //},
                     {
                         title:'Amazon AWS',
                         developer:'Amazon',
                         icon:'amazon_aws.png',
                         url:'https://us-west-2.console.aws.amazon.com/console/home?region=us-west-2'
-                    }
-                ];
-
-                var apps2 = [
+                    },
                     {
                         title:'Datasilk',
                         developer:'datasilk',
                         icon:'datasilk.png',
                         url:'https://www.datasilk.io'
                     }
-                    ,
-                    /*{
-                        title:'eBay',
-                        developer:'eBay',
-                        icon:'ebay.png',
-                        url:'https://ebay.com'
-                    }*/
                 ];
 
                 var simTypeRatio = {
                     images:{start:1, end:5},
                     shadertoys:{start:6, end:70},
-                    n64:{start:71, end:100}
+                    n64:{start:71, end:100},
+                    midjourney:{start:101, end:150},
                 };
                 
-                var simRand = 10; //1 + Math.round(Math.random() * 100);
+                var simRand = 101; //1 + Math.round(Math.random() * 100);
                 if(simRand >= simTypeRatio.images.start && simRand <= simTypeRatio.images.end){
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //load random 4K background ///////////////////////////////////////////////////////////////////////////////
                     var imagelength = 13;
-                    var img = getRandomImage();
-                    //document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+                    var img = getRandomImage(imagelength, 2, 'jpg');
+                    document.body.style.backgroundImage = 'url(/images/4k/' + img + ')';
+                    //override image (optional, for custom image)
+                    //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
+                }else if(simRand >= simTypeRatio.midjourney.start && simRand <= simTypeRatio.midjourney.end){
+                    ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    //load random MidJourney / Flux image ///////////////////////////////////////////////////////////////////////////////
+                    var imagelength = 17;
+                    var img = getRandomImage(imagelength, 4, 'png');
+                    document.body.style.backgroundImage = 'url(/images/MidJourney/' + img + ')';
                     //override image (optional, for custom image)
                     //document.body.style.backgroundImage = 'url(/images/UnknownCoderX/20211010-001.jpg)';
                 }else if(simRand >= simTypeRatio.shadertoys.start && simRand <= simTypeRatio.shadertoys.end){
@@ -492,9 +505,6 @@
                     //shadertoy.src = 'https://www.shadertoy.com/embed/' + toy + '?gui=false&t=10&paused=false&muted=true';
                     shadertoy.src = '/shadertoy/shadertoy.html?toy=' + toy;
 
-                    //load app icons
-                    window.loadApps = loadApps;
-
                 }else if(simRand >= simTypeRatio.shadertoys.start && simRand <= simTypeRatio.shadertoys.end){
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //load Nintendo 64 emulator (https://github.com/lrusso/Nintendo64) ////////////////////////////////////////
@@ -503,7 +513,6 @@
                 }
                 //remove templates
                 divapp.parentNode.removeChild(divapp);
-                divapp2.parentNode.removeChild(divapp2);
                 setTimeout(() => {
                     //divapps.style.display='none';
                     divapps.style.opacity = 1;
@@ -532,25 +541,16 @@
                     }
                     divapps.innerHTML = htm;
                     htm = '';
-                    
-                    //apps2
-                    for(let x = 0; x < apps2.length; x++){
-                        htm +=
-                            divapp2.innerHTML
-                            .replace('{{title}}', apps2[x].title)
-                            .replace('{{developer}}', apps2[x].developer)
-                            .replace('{{icon}}', 'src="/icons/' + apps2[x].icon + '"')
-                            .replace('{{url}}', apps2[x].url);
-                    }
-                    divapps2.innerHTML = htm;
+                
                 }
+                window.loadApps = loadApps;
 
                 function lpad(s, width, char) {
                     return (s.length >= width) ? s : (new Array(width).join(char) + s).slice(-width);
                 }
 
-                function getRandomImage(){
-                    return lpad(1 + Math.round(Math.random() * (imagelength - 1)), 2, '0') + '.jpg';
+                function getRandomImage(totalImages, zeros, ext){
+                    return lpad(1 + Math.round(Math.random() * (totalImages - 1)), zeros, '0') + '.' + ext;
                 }
 
             })(); //end contained function
