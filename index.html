@@ -40,16 +40,16 @@
             }
 
             @media(max-width:1600px){
-                .apps > .col{padding:30px;}
+                .apps > .col{padding:15px;}
             }
 
             @media(max-width:1440px){
-                .apps > .col{padding:40px;}
+                .apps > .col{padding:20px;}
             }
 
 
             @media(max-width:870px){
-                .apps > .col{padding:30px;}
+                .apps > .col{padding:25px;}
             }
 
             @media(max-width:800px){
@@ -58,7 +58,7 @@
             }
 
             @media(max-width:426px){
-                .apps > .col{padding:40px;}
+                .apps > .col{padding:15px;}
             }
         </style>
     </head>
@@ -68,7 +68,7 @@
             <iframe src="about:blank" id="shadertoy" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>
         </div>
         <div id="app">
-            <div class="col {{hd-size}} desktop-two laptop-five-total tablet-three tablet-sm-four mobile-six flexed">
+            <div class="col {{hd-size}} desktop-seven-total laptop-five-total tablet-four-total tablet-sm-four mobile-three-total flexed">
                 <a href="{{url}}">
                     <img {{icon}}>
                     <span>{{title}}</span>
@@ -193,6 +193,12 @@
                         url:'https://www.midjourney.com/imagine'
                     },
                     {
+                        title:'Grok',
+                        developer:'Twitter',
+                        icon:'grok.png',
+                        url:'https://x.com/i/grok'
+                    },
+                    {
                         title:'ChatGPT',
                         developer:'OpenAI, Inc',
                         icon:'chatgpt.png',
@@ -229,6 +235,12 @@
                     //    url:'https://www.wunderground.com/'
                     //},
                     {
+                        title:'Amazon KDP',
+                        developer:'Amazon',
+                        icon:'amazon_kdp.png',
+                        url:'https://kdp.amazon.com/en_US/bookshelf'
+                    },
+                    {
                         title:'Amazon AWS',
                         developer:'Amazon',
                         icon:'amazon_aws.png',
@@ -261,7 +273,7 @@
                 }else if(simRand >= simTypeRatio.midjourney.start && simRand <= simTypeRatio.midjourney.end){
                     ///////////////////////////////////////////////////////////////////////////////////////////////////////////
                     //load random MidJourney / Flux image ///////////////////////////////////////////////////////////////////////////////
-                    var imagelength = 21;
+                    var imagelength = 138;
                     var img = getRandomImage(imagelength, 4, 'png');
                     document.body.style.backgroundImage = 'url(/images/MidJourney/' + img + ')';
                     //override image (optional, for custom image)
@@ -528,9 +540,8 @@
                 function loadApps(){
                     let htm = '';
                     //apps
-                    let hdsize = 'hd-nine-total';
+                    let hdsize = 'hd-ten-total';
                     for(let x = 0; x < apps.length; x++){
-                        if(x == 9){ hdsize = 'hd-ten-total'; }
                         htm +=
                             divapp.innerHTML
                             .replace('{{title}}', apps[x].title)
