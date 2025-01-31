@@ -5,16 +5,17 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
-        <link rel="stylesheet" type="text/css" href="/tapestry.css"/>
         <style type="text/css">
             body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover; background-position: center;}
             #svglist{display:none;}
             #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0;}
+            #menubtn{margin:0 auto; width:32px;}
+            #menubtn img{width:100%; cursor:pointer;}
             .menu-icon{position:absolute; top:50px; left:50px; display:none;}
             .menu-icon img{width:32px; opacity:0.25;}
             .menu-icon:hover img{opacity:0.75;}
-            .apps{width:100%; max-width:1920px; margin:0 auto;}
-            .apps > .col{text-align:center; padding:30px;}
+            .apps{width:100%; text-align:center; margin:0 auto; max-width:1570px;}
+            .apps > .col{display:inline-block; text-align:center; padding:10px; width:10%; max-width:150px; min-width:80px; vertical-align:top;}
             .apps > .col a{text-decoration:none;}
             .apps > .col img{width:100%;}
             .apps > .col span{font-family:helvetica, arial; font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
@@ -33,52 +34,33 @@
             .toys-list a{padding:5px; color:#fff; text-decoration:none; display:block; font-family: monospace;}
             .toys-list a.selected{background-color:#009d4c}
 
-            /* responsive icons ////////////////////////////////// */
-
-            @media(max-width:1768px){
-                .apps > .col span{font-size:17px;}
+            @media screen and (max-width:2370px) {
+                .apps{max-width:1570px;}
             }
 
-            @media(max-width:1600px){
-                .apps > .col{padding:15px;}
+            @media screen and (max-width:980px) {
+                .apps{max-width:1120px;}
             }
 
-            @media(max-width:1440px){
-                .apps > .col{padding:20px;}
-            }
-
-
-            @media(max-width:870px){
-                .apps > .col{padding:25px;}
-            }
-
-            @media(max-width:800px){
-                .apps > .col span{font-size:16px;}
-                .apps > .col{padding:25px;}
-            }
-
-            @media(max-width:426px){
-                .apps > .col{padding:15px;}
-            }
         </style>
     </head>
-    <body class="box">
+    <body>
+        <div id="menubtn"><img src="/icons/hamburger.png" onclick="toggleApps()"/></div>
         <div id="toyslist" class="toys-list" style="display:none"></div>
         <div id="shadertoybg">
             <iframe src="about:blank" id="shadertoy" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>
         </div>
         <div id="app">
-            <div class="col {{hd-size}} desktop-seven-total laptop-five-total tablet-four-total tablet-sm-four mobile-three-total flexed">
+            <div class="col">
                 <a href="{{url}}">
                     <img {{icon}}>
                     <span>{{title}}</span>
+                    <!-- <span>{{title}}</span> -->
                 </a>
             </div>
         </div>
         <div id="menu" class="menu-icon"><img src="/images/menu-icon.png"/></div>
-        <div id="apps" class="apps flex"></div>
-        <div id="apps2" class="apps flex"></div>
-        <!--<div id="hideapps" onclick="hideApps()"></div>-->
+        <div id="apps" class="apps" style="display:none"></div>
 
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
@@ -203,6 +185,12 @@
                         developer:'OpenAI, Inc',
                         icon:'chatgpt.png',
                         url:'https://chatgpt.com'
+                    },
+                    {
+                        title:'Claude',
+                        developer:'Anthropic',
+                        icon:'claude.png',
+                        url:'https://claude.ai'
                     },
                     {
                         title:'h!anime.to',
@@ -538,20 +526,17 @@
 
                 //load list of apps on page
                 function loadApps(){
-                    let htm = '';
+                    var htm = '';
                     //apps
-                    let hdsize = 'hd-ten-total';
                     for(let x = 0; x < apps.length; x++){
                         htm +=
                             divapp.innerHTML
                             .replace('{{title}}', apps[x].title)
                             .replace('{{developer}}', apps[x].developer)
                             .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
-                            .replace('{{url}}', apps[x].url)
-                            .replace('{{hd-size}}', hdsize);
+                            .replace('{{url}}', apps[x].url);
                     }
                     divapps.innerHTML = htm;
-                    htm = '';
                 
                 }
                 window.loadApps = loadApps;
@@ -570,11 +555,9 @@
                 if(apps.style.display == 'none'){
                     history.pushState(null, 'New Tab', '/');
                     apps.style.display = '';
-                    apps2.style.display = '';
                 }else{
                     history.pushState(null, 'New Tab - No Apps', '/?noapps');
                     apps.style.display = 'none';
-                    apps2.style.display = 'none';
                 }
             }
 
@@ -585,6 +568,11 @@
                         break;
                 }
             });
+
+            function toggleApps(){
+                menubtn.style.display = 'none';
+                apps.style.display = 'block';
+            }
 
             if(location.href.indexOf('?noapps') > 0){
                 hideApps();
