@@ -3,22 +3,52 @@
     <head>
         <title>New Tab</title>
         <meta charset="UTF-8" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,width=device-width,height=device-height,user-scalable=yes" />
         <style type="text/css">
             body{background-color:#e0e0e0 !important; background-attachment: fixed !important; background-size:cover; background-position: center;}
             #svglist{display:none;}
             #shadertoybg, #shadertoybg iframe{position:fixed; z-index:-1; top:0; right:0; bottom:0; left:0;}
-            #menubtn{margin:0 auto; width:32px;}
-            #menubtn img{width:100%; cursor:pointer;}
-            .menu-icon{position:absolute; top:50px; left:50px; display:none;}
-            .menu-icon img{width:32px; opacity:0.25;}
-            .menu-icon:hover img{opacity:0.75;}
-            .apps{width:100%; text-align:center; margin:0 auto; max-width:1570px;}
-            .apps > .col{display:inline-block; text-align:center; padding:10px; width:10%; max-width:150px; min-width:80px; vertical-align:top;}
-            .apps > .col a{text-decoration:none;}
-            .apps > .col img{width:100%;}
-            .apps > .col span{font-family:helvetica, arial; font-size:22px; font-weight:400; color:#333 !important; text-overflow:ellipsis; color:#fff !important;}
+            #menubtn{display:none;}
+            .menu-icon{display:none;}
+            
+            #viewSwitcher{position:fixed; top:20px; right:20px; width:48px; height:48px; background-color:rgba(0, 0, 0, 0.6); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background-color 0.2s; z-index:1000;}
+            #viewSwitcher:hover{background-color:rgba(0, 0, 0, 0.8);}
+            #viewSwitcher .material-icons-outlined{color:#fff; font-size:28px;}
+            
+            /* View 1: Original centered grid view */
+            .apps.view1{width:100%; text-align:center; margin:0 auto; padding:0 50px; box-sizing:border-box; max-width:1570px; position:relative; left:auto; top:auto; max-height:none; overflow:visible;}
+            .apps.view1 > .col{display:inline-block; text-align:center; padding:10px; width:10%; max-width:100px; min-width:80px; vertical-align:top; background-color:transparent; border-radius:0; margin-bottom:0; position:relative;}
+            .apps.view1 > .col:hover{background-color:transparent;}
+            .apps.view1 > .col a{text-decoration:none; display:block; width:auto;}
+            .apps.view1 > .col img{width:100%; height:auto; margin-right:0;}
+            .apps.view1 > .col span{position:absolute; top:100%; left:50%; transform:translateX(-50%); background-color:rgba(0, 0, 0, 0.85); color:#fff !important; padding:8px 12px; border-radius:6px; white-space:nowrap; font-family:helvetica, arial; font-size:14px; font-weight:normal; pointer-events:none; z-index:1001; opacity:0; visibility:hidden; transition:opacity 0.2s, visibility 0.2s;}
+            .apps.view1 > .col span::before{content:''; position:absolute; bottom:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-bottom-color:rgba(0, 0, 0, 0.85);}
+            .apps.view1 > .col:hover span,
+            .apps.view1 > .col:hover > span{opacity:1 !important; visibility:visible !important; display:block !important;}
+            
+            /* View 2: Left sidebar view */
+            .apps.view2{position:fixed; left:20px; top:20px; width:auto; max-height:calc(100vh - 40px);}
+            .apps.view2 > .col{display:flex; align-items:center; justify-content:center; padding:12px; margin-bottom:10px; background-color:rgba(0, 0, 0, 0.6); border-radius:12px; transition:background-color 0.2s; position:relative;}
+            .apps.view2 > .col:hover{background-color:rgba(0, 0, 0, 0.8);}
+            .apps.view2 > .col a{text-decoration:none; display:flex; align-items:center; justify-content:center;}
+            .apps.view2 > .col img{width:48px; height:48px; flex-shrink:0;}
+            .apps.view2 > .col span{position:absolute; left:calc(100% + 12px); top:50%; transform:translateY(-50%); background-color:rgba(0, 0, 0, 0.85); color:#fff !important; padding:8px 12px; border-radius:6px; white-space:nowrap; font-family:helvetica, arial; font-size:14px; font-weight:normal; pointer-events:none; z-index:1001; opacity:0; visibility:hidden; transition:opacity 0.2s, visibility 0.2s;}
+            .apps.view2 > .col span::before{content:''; position:absolute; right:100%; top:50%; transform:translateY(-50%); border:6px solid transparent; border-right-color:rgba(0, 0, 0, 0.85);}
+            .apps.view2 > .col:hover span,
+            .apps.view2 > .col:hover > span{opacity:1 !important; visibility:visible !important; display:block !important;}
+            
+            /* View 3: Taskbar view */
+            .apps.view3{position:fixed; bottom:0; left:0; right:0; width:100%; background-color:rgba(0, 0, 0, 0.7); padding:8px 20px; display:flex; align-items:center; justify-content:center; overflow:visible !important; max-height:80px;}
+            .apps.view3 > .col{display:inline-flex; align-items:center; justify-content:center; padding:8px; margin:0 4px; background-color:transparent; border-radius:8px; transition:background-color 0.2s; min-width:40px; position:relative;}
+            .apps.view3 > .col:hover{background-color:rgba(255, 255, 255, 0.1);}
+            .apps.view3 > .col a{text-decoration:none; display:flex; align-items:center; justify-content:center;}
+            .apps.view3 > .col img{width:36px; height:36px; flex-shrink:0;}
+            .apps.view3 > .col span{position:absolute; bottom:calc(100% + 18px); left:50%; transform:translateX(-50%); background-color:rgba(0, 0, 0, 0.85); color:#fff !important; padding:8px 12px; border-radius:6px; white-space:nowrap; font-family:helvetica, arial; font-size:14px; font-weight:normal; pointer-events:none; z-index:1001; opacity:0; visibility:hidden; transition:opacity 0.2s, visibility 0.2s;}
+            .apps.view3 > .col span::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top-color:rgba(0, 0, 0, 0.85);}
+            .apps.view3 > .col:hover span,
+            .apps.view3 > .col:hover > span{opacity:1 !important; visibility:visible !important; display:block !important;}
 
             .search-bar{width:100%; padding:50px 30px 10px 30px; box-sizing:border-box;}
             .search-bar input{width:100%; max-width:500px;}
@@ -45,7 +75,9 @@
         </style>
     </head>
     <body>
-        <div id="menubtn"><img src="/icons/hamburger.png" onclick="toggleApps()"/></div>
+        <div id="viewSwitcher" onclick="cycleView()">
+            <span class="material-icons-outlined">view_module</span>
+        </div>
         <div id="toyslist" class="toys-list" style="display:none"></div>
         <div id="shadertoybg">
             <iframe src="about:blank" id="shadertoy" width="100%" height="100%" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>
@@ -54,13 +86,12 @@
             <div class="col">
                 <a href="{{url}}">
                     <img {{icon}}>
-                    <span>{{title}}</span>
-                    <!-- <span>{{title}}</span> -->
                 </a>
+                <span>{{title}}</span>
             </div>
         </div>
         <div id="menu" class="menu-icon"><img src="/images/menu-icon.png"/></div>
-        <div id="apps" class="apps" style="display:none"></div>
+        <div id="apps" class="apps view1"></div>
 
         <!-- //////////////////////////////////////////////////////////////////////////////-->
         <!-- Javascript Initial Page Load Rendering ///////////////////////////////////////-->
@@ -72,17 +103,23 @@
                 var divapp = d.getElementById('app');
                 var divapps = d.getElementById('apps');
                 var apps = [
+                    //{
+                    //    title:'Kandu',
+                    //    developer:'Datasilk',
+                    //    icon:'kandu.png',
+                    //    url:'https://kandu.land'
+                    //},
+                    //{
+                    //    title:'Legendary',
+                    //    developer:'Datasilk',
+                    //    icon:'legendary.png',
+                    //    url:'https://legendary.starsilk.io'
+                    //},
                     {
-                        title:'Kandu',
+                        title:'Collector',
                         developer:'Datasilk',
-                        icon:'kandu.png',
-                        url:'https://kandu.land'
-                    },
-                    {
-                        title:'Legendary',
-                        developer:'Datasilk',
-                        icon:'legendary.png',
-                        url:'https://legendary.starsilk.io'
+                        icon:'collector.png',
+                        url:'http://100.64.0.2:7780/journal'
                     },
                     {
                         title:'Gmail',
@@ -114,17 +151,17 @@
                         icon:'google_calendar.png',
                         url:'https://www.google.com/calendar'
                     },
+                    {
+                        title:'Chrome Remote Desktop',
+                        developer:'Google',
+                        icon:'chrome-remote-desktop.png',
+                        url:'https://remotedesktop.google.com/access'
+                    },
                     //{
                     //    title:'Hacker News',
                     //    developer:'Y-Combinator',
                     //    icon:'hackernews.png',
                     //    url:'https://news.ycombinator.com/'
-                    //},
-                    //{
-                    //    title:'Amazon',
-                    //    developer:'Amazon',
-                    //    icon:'amazon.png',
-                    //    url:'https://www.amazon.com'
                     //},
                     {
                         title:'Facebook',
@@ -157,12 +194,6 @@
                     //    url:'https://www.disneyplus.com'
                     //},
                     //{
-                    //    title:'Crunchy Roll',
-                    //    developer:'Crunchy Roll',
-                    //    icon:'crunchyroll.png',
-                    //    url:'https://www.crunchyroll.com'
-                    //},
-                    //{
                     //    title:'Twitch',
                     //    developer:'Twitch',
                     //    icon:'twitch.png',
@@ -193,11 +224,17 @@
                         url:'https://claude.ai'
                     },
                     {
-                        title:'h!anime.to',
-                        developer:'h!anime',
-                        icon:'hianime.png',
-                        url:'https://hianime.to/user/watch-list?type=1&sort='
+                        title:'Crunchy Roll',
+                        developer:'Crunchy Roll',
+                        icon:'crunchyroll.png',
+                        url:'https://www.crunchyroll.com'
                     },
+                    //{
+                    //    title:'h!anime.to',
+                    //    developer:'h!anime',
+                    //    icon:'hianime.png',
+                    //    url:'https://hianime.to/user/watch-list?type=1&sort='
+                    //},
                     {
                         title:'Chase',
                         developer:'Chase',
@@ -210,18 +247,24 @@
                     //    icon:'mint.png',
                     //    url:'https://www.mint.com'
                     //},
-                    {
-                        title:'Monarch',
-                        developer:'Monarch',
-                        icon:'monarch.png',
-                        url:'https://app.monarchmoney.com/'
-                    },
+                    //{
+                    //    title:'Monarch',
+                    //    developer:'Monarch',
+                    //    icon:'monarch.png',
+                    //    url:'https://app.monarchmoney.com/'
+                    //},
                     //{
                     //    title:'Weather Underground',
                     //    developer:'WU',
                     //    icon:'wundermap2.png',
                     //    url:'https://www.wunderground.com/'
                     //},
+                    {
+                        title:'Amazon',
+                        developer:'Amazon',
+                        icon:'amazon.png',
+                        url:'https://www.amazon.com'
+                    },
                     {
                         title:'Amazon KDP',
                         developer:'Amazon',
@@ -513,10 +556,7 @@
                 }
                 //remove templates
                 divapp.parentNode.removeChild(divapp);
-                setTimeout(() => {
-                    //divapps.style.display='none';
-                    divapps.style.opacity = 1;
-                }, 1000);
+                loadApps();
                 
 
                 menu.addEventListener('click', () => {
@@ -531,7 +571,7 @@
                     for(let x = 0; x < apps.length; x++){
                         htm +=
                             divapp.innerHTML
-                            .replace('{{title}}', apps[x].title)
+                            .replace(/{{title}}/g, apps[x].title)
                             .replace('{{developer}}', apps[x].developer)
                             .replace('{{icon}}', 'src="/icons/' + apps[x].icon + '"')
                             .replace('{{url}}', apps[x].url);
@@ -570,14 +610,42 @@
             });
 
             function toggleApps(){
-                menubtn.style.display = 'none';
-                apps.style.display = 'block';
+                // No longer needed - apps always visible
             }
+
+            function cycleView(){
+                var currentView = localStorage.getItem('newtab:viewtype') || '1';
+                var nextView = currentView === '1' ? '2' : (currentView === '2' ? '3' : '1');
+                localStorage.setItem('newtab:viewtype', nextView);
+                applyView(nextView);
+            }
+
+            function applyView(viewType){
+                var appsDiv = document.getElementById('apps');
+                var viewSwitcher = document.getElementById('viewSwitcher');
+                var icon = viewSwitcher.querySelector('.material-icons-outlined');
+                
+                appsDiv.className = 'apps view' + viewType;
+                
+                // Update icon based on current view
+                if(viewType === '1'){
+                    icon.textContent = 'view_module'; // Grid icon for view 1
+                } else if(viewType === '2'){
+                    icon.textContent = 'view_agenda'; // List icon for view 2
+                } else {
+                    icon.textContent = 'dock'; // Taskbar icon for view 3
+                }
+            }
+
+            // Load saved view on page load
+            (function(){
+                var savedView = localStorage.getItem('newtab:viewtype') || '1';
+                applyView(savedView);
+            })();
 
             if(location.href.indexOf('?noapps') > 0){
                 hideApps();
             }
-            loadApps();
         </script>
     </body>
 
